@@ -24,7 +24,7 @@ public class MemberDao {
 	}
 
 	public Member selectByEmail(String email) {		// 동일한 이메일에 해당하는 한 건만 리턴
-		List<Member> results = jdbcTemplate.query(
+		List<Member> results = jdbcTemplate.query(	// 다중 결과는 List로 받음
 				"select * from MEMBER where EMAIL = ?",
 				new RowMapper<Member>() {
 		/*			@Override
@@ -53,16 +53,17 @@ public class MemberDao {
 				email		// sql문의 ?에 해당하는 첫번째 파라미터
 				);			// query
 							
-		
 		return results.isEmpty() ? null : results.get(0);
 	}
 
 	public void insert(Member member) {
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+		// 테이블에서 자동 생성된 필드 값을 얻음 : SEQUENCE 값
+		// 입려된 테이블 MEMBER 테이블의 필드 ID값을 얻음
+		KeyHolder keyHolder = new GeneratedKeyHolder();			
+		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
-			public PreparedStatement createPreparedStatement(Connection con)
-					throws SQLException {
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				// 파라미터로 전달받은 Connection을 이용해서 PreparedStatement 생성
 				PreparedStatement pstmt = con.prepareStatement(
 						"insert into MEMBER (ID, EMAIL, PASSWORD, NAME, REGDATE) " +
@@ -89,7 +90,7 @@ public class MemberDao {
 
 	public List<Member> selectAll() {
 		List<Member> results = jdbcTemplate.query("select * from MEMBER",
-				(ResultSet rs, int rowNum) -> {
+				(ResultSet rs, int rowNum) -> {	// 람다식
 					Member member = new Member(
 							rs.getString("EMAIL"),
 							rs.getString("PASSWORD"),

@@ -63,10 +63,10 @@ public class Main {
 			return;
 		}
 		try {
-			regSvc.regist(req);
-			System.out.println("등록했습니다.\n");
+			long memberid = regSvc.regist(req);
+			System.out.printf("[입력성공] 맴버 ID(%d)로 등록했습니다.\n", memberid);
 		} catch (DuplicateMemberException e) {
-			System.out.println("이미 존재하는 이메일입니다.\n");
+			System.out.printf("[입력실패] 이미 존재하는 이메일입니다.\n");
 		}
 	}
 
