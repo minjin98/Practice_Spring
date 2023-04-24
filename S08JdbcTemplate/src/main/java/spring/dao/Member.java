@@ -19,6 +19,16 @@ public class Member {
 		this.name = name;
 		this.registerDateTime = regDateTime;
 	}
+	
+	public Member(Long id, String email, String password, 
+			String name, LocalDateTime regDateTime) {
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.registerDateTime = regDateTime;
+	}
+
 
 	public void setId(Long id) {
 		this.id = id;

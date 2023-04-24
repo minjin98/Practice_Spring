@@ -23,11 +23,11 @@ public class MemberDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public Member selectByEmail(String email) {
+	public Member selectByEmail(String email) {		// 동일한 이메일에 해당하는 한 건만 리턴
 		List<Member> results = jdbcTemplate.query(
 				"select * from MEMBER where EMAIL = ?",
 				new RowMapper<Member>() {
-					@Override
+		/*			@Override
 					public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
 						Member member = new Member(
 								rs.getString("EMAIL"),
@@ -36,9 +36,24 @@ public class MemberDao {
 								rs.getTimestamp("REGDATE").toLocalDateTime());
 						member.setId(rs.getLong("ID"));
 						return member;
+					}*/
+					
+					@Override
+					public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Member member = new Member(
+								rs.getLong("ID"),
+								rs.getString("EMAIL"),
+								rs.getString("PASSWORD"),
+								rs.getString("NAME"),
+								rs.getTimestamp("REGDATE").toLocalDateTime());
+						//member.setId(rs.getLong("ID"));
+						return member;
 					}
-				}, email);
-
+				},			// RowMapper의 익명구현객체 	
+				email		// sql문의 ?에 해당하는 첫번째 파라미터
+				);			// query
+							
+		
 		return results.isEmpty() ? null : results.get(0);
 	}
 
