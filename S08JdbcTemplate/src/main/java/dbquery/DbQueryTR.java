@@ -12,10 +12,10 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-public class DbQuery {
+public class DbQueryTR {
 	private DataSource dataSource;
 
-	public DbQuery(DataSource dataSource) {
+	public DbQueryTR(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 

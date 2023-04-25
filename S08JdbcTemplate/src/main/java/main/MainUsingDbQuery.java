@@ -14,7 +14,7 @@ public class MainUsingDbQuery {
 
 		DbQuery dbQuery = ctx.getBean(DbQuery.class);
 		int count = dbQuery.count();
-		System.out.println(count);
+		System.out.println("맴버 수 : "+count+ "건");
 		ctx.close();
 	}
 }

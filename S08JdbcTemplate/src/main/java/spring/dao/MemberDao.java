@@ -87,6 +87,11 @@ public class MemberDao {
 				"update MEMBER set NAME = ?, PASSWORD = ? where EMAIL = ?",
 				member.getName(), member.getPassword(), member.getEmail());
 	}
+	public int delete(Long memberid) {
+			return jdbcTemplate.update("delete from MEMBER where id = ?", memberid);
+				
+				
+	}
 
 	public List<Member> selectAll() {
 		List<Member> results = jdbcTemplate.query("select * from MEMBER",

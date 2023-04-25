@@ -12,8 +12,7 @@ public class MainForCPS {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppCtx.class);
 
-        ChangePasswordService cps = 
-                ctx.getBean("changePwdSvc", ChangePasswordService.class);
+        ChangePasswordService cps = ctx.getBean("changePwdSvc", ChangePasswordService.class);
         try {
             cps.changePassword("madvirus@madvirus.net", "1234", "1111");
             System.out.println("암호를 변경했습니다.");
