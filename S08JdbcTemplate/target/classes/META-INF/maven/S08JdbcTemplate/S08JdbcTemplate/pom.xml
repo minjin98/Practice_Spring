@@ -3,7 +3,8 @@
   <groupId>S08JdbcTemplate</groupId>
   <artifactId>S08JdbcTemplate</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencies>
+  
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -14,24 +15,26 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>5.0.2.RELEASE</version>
 		</dependency>
-		
-		<!-- oracle jdbc driver -->
-	 	<dependency>
+		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>8.5.27</version>
-		</dependency> 
+		</dependency>
 		
+		<!-- oracle jdbc driver -->
 		<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
 				<version>19.7.0.0</version>
 		</dependency>
-		<!-- <dependency>
+
+		<!-- 
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.45</version>
-		</dependency> -->
+		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -58,6 +61,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+	</build>  
   
 </project>

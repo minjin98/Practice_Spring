@@ -14,10 +14,10 @@ public class MainForMemberDao2 {
 	private static MemberDao memberDao;
 
 	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(AppCtx.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppCtx.class);
 
 		memberDao = ctx.getBean(MemberDao.class);
+		
 		insertMember();
 
 		selectAll();
@@ -25,10 +25,11 @@ public class MainForMemberDao2 {
 		Long memberid = insertMember();
 		
 		selectAll();
-		
+
 		deleteMember(memberid);
-		
+
 		selectAll();
+
 		ctx.close();
 	}
 
@@ -53,23 +54,24 @@ public class MainForMemberDao2 {
 		System.out.println("암호 변경: " + oldPw + " > " + newPw);
 	}
 
-	private static DateTimeFormatter formatter = 
-			DateTimeFormatter.ofPattern("MMddHHmmss");
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddHHmmss");
 
 	private static Long insertMember() {
 		System.out.println("----- insertMember");
 
 		String prefix = formatter.format(LocalDateTime.now());
-		Member member = new Member(prefix + "@test.com", 
-				prefix, prefix, LocalDateTime.now());
+		Member member = new Member(prefix + "@test.com", prefix, prefix, LocalDateTime.now());
 		memberDao.insert(member);
 		System.out.println(member.getId() + " 데이터 추가");
+		
 		return member.getId();
 	}
+	
 	private static void deleteMember(Long memberid) {
-		System.out.println("----- deleteMember : memberid = " + memberid);
-		
+		System.out.println("----- deleteMember : memberid=" + memberid);
+
 		int delcnt = memberDao.delete(memberid);
-		System.out.printf("[데이터 삭제] 맴버 ID(%d) : 삭제 %s\n", memberid, ((delcnt>0)? "성공" : "실패"));
-					}
+		System.out.printf("[데이터 삭제] 멤버 ID(%d) : 삭제 %s\n", memberid, ((delcnt > 0) ? "성공" : "실패"));
+	}
+
 }

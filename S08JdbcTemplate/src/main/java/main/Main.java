@@ -23,7 +23,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		ctx = new AnnotationConfigApplicationContext(AppCtx.class);
 
-		BufferedReader reader =	new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			System.out.println("명렁어를 입력하세요:");
 			String command = reader.readLine();
@@ -63,10 +63,10 @@ public class Main {
 			return;
 		}
 		try {
-			long memberid = regSvc.regist(req);
-			System.out.printf("[입력성공] 맴버 ID(%d)로 등록했습니다.\n", memberid);
+			Long memberid = regSvc.regist(req);
+			System.out.printf("[입력성공] 멤버 ID(%d)로 등록했습니다.\n", memberid);
 		} catch (DuplicateMemberException e) {
-			System.out.printf("[입력실패] 이미 존재하는 이메일입니다.\n");
+			System.out.println("[입력실패] 이미 존재하는 이메일입니다.\n");
 		}
 	}
 
@@ -75,7 +75,8 @@ public class Main {
 			printHelp();
 			return;
 		}
-		ChangePasswordService changePwdSvc = ctx.getBean("changePwdSvc", ChangePasswordService.class);
+		ChangePasswordService changePwdSvc =
+				ctx.getBean("changePwdSvc", ChangePasswordService.class);
 		try {
 			changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
 			System.out.println("암호를 변경했습니다.\n");
@@ -87,7 +88,8 @@ public class Main {
 	}
 
 	private static void processListCommand() {
-		MemberListPrinter listPrinter =	ctx.getBean("listPrinter", MemberListPrinter.class);
+		MemberListPrinter listPrinter =
+				ctx.getBean("listPrinter", MemberListPrinter.class);
 		listPrinter.printAll();
 	}
 
@@ -96,7 +98,8 @@ public class Main {
 			printHelp();
 			return;
 		}
-		MemberInfoPrinter infoPrinter =	ctx.getBean("infoPrinter", MemberInfoPrinter.class);
+		MemberInfoPrinter infoPrinter =
+				ctx.getBean("infoPrinter", MemberInfoPrinter.class);
 		infoPrinter.printMemberInfo(arg[1]);
 	}
 

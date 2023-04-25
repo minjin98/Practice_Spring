@@ -14,6 +14,6 @@ public class DbQueryConfig {
 
 	@Bean
 	public DbQuery dbQuery() {
-		return new DbQuery(dataSource);
+		return new DbQuery(this.dataSource);
 	}
 }

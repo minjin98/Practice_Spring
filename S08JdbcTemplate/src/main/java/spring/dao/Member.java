@@ -12,23 +12,20 @@ public class Member {
 	private String name;
 	private LocalDateTime registerDateTime;
 
-	public Member(String email, String password, 
-			String name, LocalDateTime regDateTime) {
+	public Member(String email, String password, String name, LocalDateTime regDateTime) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.registerDateTime = regDateTime;
 	}
 	
-	public Member(Long id, String email, String password, 
-			String name, LocalDateTime regDateTime) {
+	public Member(Long id, String email, String password, String name, LocalDateTime regDateTime) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.registerDateTime = regDateTime;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -40,6 +37,11 @@ public class Member {
 
 	public String getEmail() {
 		return email;
+	}
+	
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -54,10 +56,23 @@ public class Member {
 		return registerDateTime;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public void changePassword(String oldPassword, String newPassword) {
-		if (!password.equals(oldPassword))
+		if (!password.equals(oldPassword)) {
 			throw new WrongIdPasswordException();
+		}
 		this.password = newPassword;
+	}
+	
+	@Override
+	public String toString() {
+		String msg = String.format("id(%d), name(%s), email(%s), password(%s) regdate(%tF)",
+				this.id, this.name, this.email, this.password, this.registerDateTime);
+		
+		return msg;
 	}
 
 }

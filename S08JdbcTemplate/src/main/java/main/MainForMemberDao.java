@@ -14,14 +14,15 @@ public class MainForMemberDao {
 	private static MemberDao memberDao;
 
 	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(AppCtx.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppCtx.class);
 
 		memberDao = ctx.getBean(MemberDao.class);
 
 		selectAll();
 		updateMember();
 		insertMember();
+
+		selectAll();
 
 		ctx.close();
 	}
@@ -47,15 +48,13 @@ public class MainForMemberDao {
 		System.out.println("암호 변경: " + oldPw + " > " + newPw);
 	}
 
-	private static DateTimeFormatter formatter = 
-			DateTimeFormatter.ofPattern("MMddHHmmss");
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddHHmmss");
 
 	private static void insertMember() {
 		System.out.println("----- insertMember");
 
 		String prefix = formatter.format(LocalDateTime.now());
-		Member member = new Member(prefix + "@test.com", 
-				prefix, prefix, LocalDateTime.now());
+		Member member = new Member(prefix + "@test.com", prefix, prefix, LocalDateTime.now());
 		memberDao.insert(member);
 		System.out.println(member.getId() + " 데이터 추가");
 	}
