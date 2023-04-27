@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -47,6 +49,40 @@ public class DbQueryTR {
 				}
 			}
 		}
+	}
+	
+	public List<Member> selectAll() { // 전체 데이터 가져오기
+		List<Member> lists = new ArrayList<Member>();
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			
+			try (Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("select * from MEMBER")) {
+				while(rs.next()) {
+					Member member = new Member(
+							rs.getLong("ID"),
+							rs.getString("EMAIL"),
+							rs.getString("PASSWORD"),
+							rs.getString("NAME"),
+							rs.getTimestamp("REGDATE").toLocalDateTime());
+					lists.add(member);
+				};
+			}
+		} 
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		} 
+		finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} 
+				catch (SQLException e) {
+				}
+			}
+		}
+		return lists;
 	}
 	
 	public void tranactionOne(Member member) {
@@ -101,6 +137,17 @@ public class DbQueryTR {
 		}
 		
 		System.out.println("[작업종료]");
+	}
+	
+	public void tranactionTwo() {
+			System.out.println("[tranactionTwo]");
+			
+			List<Member> lists = selectAll();
+			for(Member member : lists) {
+				System.out.print(member);
+			}
+				
+		System.out.println("[작업종료]tranactiontwo");
 	}
 	
 	public void delete(Connection conn, Member member) throws SQLException, MemberNotFoundException {
