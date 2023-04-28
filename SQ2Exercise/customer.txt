@@ -1,0 +1,33 @@
+DROP TABLE customer;
+CREATE TABLE customer (
+	ID	    VARCHAR2(20) CONSTRAINT PK_CUSTOMER_ID PRIMARY KEY,
+	NAME	VARCHAR2(50),
+	TEL		VARCHAR2(20),
+	POSTCD	CHAR(5),
+	ADDRESS	VARCHAR2(200),
+	POINT	NUMBER(5),
+	REGDATE	DATE DEFAULT SYSDATE
+);
+
+
+DROP VIEW customerview;
+CREATE VIEW customerview AS
+SELECT c.id, c.name, c.tel, c.postcd, p.area || ' ' || c.address as address, point, regdate
+    FROM customer c JOIN postcode p ON c.postcd = p.postcd;
+	
+CREATE OR REPLACE VIEW customerview AS
+SELECT c.id, c.name, c.tel, c.postcd, p.area || ' ' || c.address as address, point, regdate
+    FROM customer c JOIN postcode p ON c.postcd = p.postcd;
+    
+CREATE OR REPLACE VIEW customerview 
+    AS    
+        SELECT c.id, c.name, c.tel, c.postcd, (p.area || ' ' || c.address) as address, point, regdate,
+            CASE
+                WHEN c.point >= 10000 THEN '1등급'
+                WHEN c.point >= 5000 and point < 10000 THEN '2등급'
+                ELSE '3등급'
+            END AS grade
+        FROM customer c JOIN postcode p ON c.postcd = p.postcd;
+            
+DESC customerview;    
+    

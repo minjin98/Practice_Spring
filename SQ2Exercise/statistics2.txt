@@ -1,0 +1,62 @@
+[통계]
+
+ 1. 고객등급: 1등급(10,000포인트 이상), 2등급(5,000포인트 이상), 3등급(5,000포인트 미만)
+ 2. 고객 등급별, 지역별 고객정보: 고객수, 평균포인트, 최고포인트, 최저포인트
+    
+SELECT * from postcode;
+SELECT * FROM customer;
+
+INSERT INTO customer VALUES('7777', '최수석', '010-0001-0001', '07703', '수석아파트 1동 101호', 70000, SYSDATE);
+COMMIT;
+
+SELECT id, name, point,
+    CASE
+        WHEN point >= 10000 THEN '1등급'
+        WHEN point >= 5000 and point < 10000 THEN '2등급'
+        ELSE '3등급'
+    END AS grade
+    FROM customer;
+    
+-- 등급별 통계 : 서브쿼리
+SELECT grade, count(point), trunc(avg(point)), max(point), min(point)
+    FROM (
+        SELECT point,
+        CASE
+            WHEN point >= 10000 THEN '1등급'
+            WHEN point >= 5000 and point < 10000 THEN '2등급'
+            ELSE '3등급'
+        END AS grade
+        FROM customer
+    )
+    GROUP BY grade
+    ORDER BY grade;
+    
+-- 고객등급을 포함 뷰 테이블    
+CREATE OR REPLACE VIEW customerview 
+    AS    
+        SELECT c.id, c.name, c.tel, c.postcd, (p.area || ' ' || c.address) as address, point, regdate,
+            CASE
+                WHEN c.point >= 10000 THEN '1등급'
+                WHEN c.point >= 5000 and point < 10000 THEN '2등급'
+                ELSE '3등급'
+            END AS grade
+        FROM customer c JOIN postcode p ON c.postcd = p.postcd;    
+        
+SELECT * FROM customerview;        
+    
+-- 등급별 통계 : 뷰를 이용한 쿼리    
+SELECT grade, count(point) as cnt, trunc(avg(point)) as avg, max(point) as max, min(point) as min
+    FROM customerview
+    GROUP BY grade
+    ORDER BY grade;
+
+-- 등급별 통계 뷰
+CREATE OR REPLACE VIEW customerstt AS    
+    SELECT grade, count(point) as cnt, trunc(avg(point)) as avg, max(point) as max, min(point) as min
+        FROM customerview
+        GROUP BY grade
+        ORDER BY grade;
+    
+-- 통계뷰를 통한 검색: 고객 데이터에 변화가 발생하면 자동으로 뷰에 반영    
+SELECT * FROM customerstt;
+    

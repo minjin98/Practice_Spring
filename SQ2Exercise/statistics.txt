@@ -1,0 +1,28 @@
+[통계]
+
+ 1. 고객등급: 1등급(10,000포인트 이상), 2등급(5,000포인트 이상), 3등급(5,000포인트 미만)
+ 2. 고객 등급별, 지역별 고객정보: 고객수, 평균포인트, 최고포인트, 최저포인트
+ 
+ (등급별)
+ SELECT point, 
+    CASE
+        WHEN point >= 10000 THEN '1등급'
+        WHEN point >= 5000 THEN '2등급'
+        ELSE '3등급' END AS grade
+    FROM customer;
+
+
+SELECT grade, count(point), trunc(avg(point)), max(point), min(point)
+    FROM (
+        SELECT point, CASE
+            WHEN point >= 10000 THEN '1등급'
+            WHEN point >= 5000 THEN '2등급'
+            ELSE '3등급' END AS grade
+        FROM customer)
+    GROUP BY grade;
+ 
+ (지역별)
+ SELECT substr(postcd, 1, 2),  count(point), trunc(avg(point)), max(point), min(point)
+    FROM customer
+    GROUP by substr(postcd, 1, 2);
+    
