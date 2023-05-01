@@ -8,9 +8,14 @@
 	- javax.servlet-api
 	- javax.servlet-api
 	- jstl
-
+3. web.xml
+	- 패스 : src/main/webapp/WEB-INF
+4. 빈설정 : MvcConfig.java
+	-@Configuration
+	-@EnableWebMvc
+	
 (pom.xml)
-<dependency>
+	<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -36,17 +41,45 @@
 			<version>5.0.2.RELEASE</version>
 		</dependency>
 	</dependencies>
+---------------------------------------------------------------------
+(실행)
+http://localhost:8584/S09SpringMVC/index
+http://localhost:8584/S09SpringMVC/hello?name=kim
+http://localhost:8584/S09SpringMVC/hello
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>utf-8</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+(실행 불가)
+http://localhost:8584/S09SpringMVC/hello.jsp
+http://localhost:8584/S09SpringMVC/WEB-INF/view/hello.jsp
+
+(요청처리)
+1. @Controller
+	- 웹 브라우저를 통해서 전송되는 요청을 처리
+2. @GetMapping
+	- HTTP : GET 방식으로 요청을 받음
+3. @RequestParam
+	- 웹브라우저가 전송한 데이터를 수신하는 방식
+	- request.getParameter("...")
+	- required는 파라미터의 필수 유무 :  true, false
+4. HelloController.java
+	- 요청 : http://localhost:8584/S09SpringMVC/hello?name=kim
+	- 결과 : hello.jsp
+	- 소스 : 
+	@Controller
+	public class HelloController {
+		@GetMapping("/hello") // HTTP : GET 방식으로 요청을 받음
+		public String hello(Model model,
+				@RequestParam(value = "name", required = false) String name) {
+			model.addAttribute("greeting", "안녕하세요, " + name);
+			return "hello";	// 뷰 이름 : hello.jsp
+		}
+	}
+-------------------------------------------------------------------------
+(MvcConfig.java)
+1. configureDefaultServletHandling(...)
+	- DispatcherServlet의 매핑 경로를 "/"로 주었을 때,
+	JSP/HTML/CSS 등을 올바르게 처리하기 위한 설정을 추가한다.
+	- 코드 : 
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
