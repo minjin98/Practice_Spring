@@ -28,13 +28,17 @@
 			<form:checkboxes items="${favoriteOsCodes}" path="favoriteOs"
 				itemValue="code" itemLabel="label" />
 		</p>
-		
+
+		<input type="submit" value="가입 완료">
+	</form:form>
+	<hr />
+
+	<h2>select: Code 사용예</h2>
+	<form:form modelAttribute="formCommand">
 		<form:select path="jobCode">
 			<option value="">--- 선택하세요 ---</option>
 			<form:options items="${jobCodes}" itemLabel="label" itemValue="code" />
 		</form:select>
-
-		<input type="submit" value="가입 완료">
 	</form:form>
 </body>
 </html>

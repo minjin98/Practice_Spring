@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -38,5 +39,11 @@ public class FormController {
 				new Code("01", "윈도우8"),
 				new Code("02", "윈도우10")));
 		return "form"; // WEB-INF/view/form.jsp
+	}
+	
+	@PostMapping
+	public String submit(@ModelAttribute("formCommand") FormCommand data) {
+		System.out.println("[SurveyController] submit : POST METHOD");
+		return "formSubmitted";
 	}
 }

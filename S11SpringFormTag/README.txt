@@ -23,6 +23,17 @@
 10. <form:form> 커스텀 태그와 HTML 일반 태그 혼용 가능
 
 ------------------------------------------------------------------------------
+(스프링 폼 태그에서 ModelAttribute 사용하기)
+@ModelAttribute("formCommand")
+public FormCommand createCommand() {
+	return new FormCommand();
+}
+
+@GetMapping
+public String form(Model model,FormCommand formCmd) {
+}
+
+------------------------------------------------------------------------------
 (실행)
 
 1. http://localhost:8584/S11SpringFormTag/form
