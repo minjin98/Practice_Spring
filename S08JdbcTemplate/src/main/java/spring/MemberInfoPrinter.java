@@ -19,6 +19,7 @@ public class MemberInfoPrinter {
 	}
 
 	public void setMemberDao(MemberDao memberDao) {
+		System.out.println("[MemberInfoPrinter] memberDao = " + memberDao.toString());
 		this.memDao = memberDao;
 	}
 

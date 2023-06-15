@@ -21,6 +21,7 @@ public class AppCtx {
 
 	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {
+		System.out.println("[DataSource] dataSource()");
 		DataSource ds = new DataSource();
 		ds.setDriverClassName(OracleInfo.driver);
 		ds.setUrl(OracleInfo.url);

@@ -33,5 +33,4 @@ public class MainClient2 {
 		System.out.println("4. 빈객체 사용 종료");
 		ctx.close();
 	}
-
 }

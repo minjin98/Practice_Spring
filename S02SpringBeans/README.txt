@@ -1,4 +1,4 @@
-[C02SpringBeans]
+[S02SpringBeans]
 
 1. 스프링 빈즈 사용하기
 	- IoC(Inversion of Control) : 제어의 역전

@@ -13,7 +13,9 @@ import spring.VersionPrinter;
 @Configuration
 @ComponentScan(basePackages = {"spring"})
 public class AppCtxWithExplicit {
-
+	/*
+	 * 컴포넌트 스캔과 중복 지정된 경우 수동지정이 우선
+	 */
 	@Bean
 	public MemberDao memberDao2() {
 		MemberDao memberDao = new MemberDao();

@@ -1,4 +1,5 @@
 /*
+ * 사용 X
  * 전통적인 JDBC 처리 모듈
  * DataSource는 tomcat의 커넥션 풀을 사용
  */

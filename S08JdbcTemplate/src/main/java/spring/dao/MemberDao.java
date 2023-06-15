@@ -21,6 +21,7 @@ public class MemberDao {
 
 	public MemberDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println("[MemberDao]" + this.toString());
 	}
 
 	public Member selectByEmail(String email) {		// 동일한 이메일에 해당하는 한 건만 리턴

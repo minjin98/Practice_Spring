@@ -12,5 +12,4 @@ public class ControllerConfig {
 	public HelloController helloController() {
 		return new HelloController();
 	}
-
 }

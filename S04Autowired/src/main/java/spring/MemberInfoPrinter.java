@@ -25,7 +25,10 @@ public class MemberInfoPrinter {
 	public void setMemberDao(MemberDao memberDao) {
 		this.memDao = memberDao;
 	}
-
+	
+	/*
+	 * AppCtx.memberPrinter1()이 연결 
+	 */
 	@Autowired
 	@Qualifier("printer")
 	public void setPrinter(MemberPrinter printer) {

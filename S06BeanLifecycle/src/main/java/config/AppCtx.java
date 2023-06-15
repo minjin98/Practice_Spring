@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import network.NetworkBean;
+import network.NetworkBean2;
 import spring.Client;
 import spring.Client2;
 
@@ -28,5 +29,11 @@ public class AppCtx {
 	public NetworkBean network() {
 		return new NetworkBean();
 	}
+	
+	@Bean 
+	public NetworkBean2 network2() {
+		return new NetworkBean2();
+	}
+	
 	
 }

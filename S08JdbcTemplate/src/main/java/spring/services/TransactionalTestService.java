@@ -19,6 +19,7 @@ public class TransactionalTestService {
 	private MemberDao memberDao;
 
 	public TransactionalTestService(MemberDao memberDao) {
+		System.out.println("[TransactionalTestService] memberDao = " + memberDao.toString());
 		this.memberDao = memberDao;
 	}
 
@@ -34,6 +35,7 @@ public class TransactionalTestService {
 			
 			System.out.println("[트랜잭션] 수정");
 			this.memberDao.update(member);
+			System.out.println("수정데이터 : " + member);
 			
 			System.out.println("[트랜잭션] 삭제");
 			this.memberDao.delete(member.getId());			
@@ -53,6 +55,7 @@ public class TransactionalTestService {
 			System.out.println("[트랜잭션] 수정");
 			member.setPassword("4321");
 			this.memberDao.update(member);
+			System.out.println("수정데이터 : " + member);
 			
 			System.out.println("[트랜잭션] 종료");
 	}
