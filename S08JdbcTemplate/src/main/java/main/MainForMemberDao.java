@@ -19,10 +19,10 @@ public class MainForMemberDao {
 		memberDao = ctx.getBean(MemberDao.class);
 
 		selectAll();
-		updateMember();
-		insertMember();
+		//updateMember();
+		//insertMember();
 
-		selectAll();
+		//selectAll();
 
 		ctx.close();
 	}
