@@ -31,7 +31,7 @@ public class MainForMemberDao {
 		System.out.println("----- selectAll");
 		int total = memberDao.count();
 		System.out.println("전체 데이터: " + total);
-		List<Member> members = memberDao.selectAll();
+		List<Member> members = memberDao.selectAll2();
 		for (Member m : members) {
 			System.out.println(m.getId() + ":" + m.getEmail() + ":" + m.getName());
 		}

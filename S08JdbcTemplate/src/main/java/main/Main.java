@@ -75,8 +75,7 @@ public class Main {
 			printHelp();
 			return;
 		}
-		ChangePasswordService changePwdSvc =
-				ctx.getBean("changePwdSvc", ChangePasswordService.class);
+		ChangePasswordService changePwdSvc = ctx.getBean("changePwdSvc", ChangePasswordService.class);
 		try {
 			changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
 			System.out.println("암호를 변경했습니다.\n");
@@ -88,8 +87,7 @@ public class Main {
 	}
 
 	private static void processListCommand() {
-		MemberListPrinter listPrinter =
-				ctx.getBean("listPrinter", MemberListPrinter.class);
+		MemberListPrinter listPrinter =	ctx.getBean("listPrinter", MemberListPrinter.class);
 		listPrinter.printAll();
 	}
 
@@ -98,8 +96,7 @@ public class Main {
 			printHelp();
 			return;
 		}
-		MemberInfoPrinter infoPrinter =
-				ctx.getBean("infoPrinter", MemberInfoPrinter.class);
+		MemberInfoPrinter infoPrinter =	ctx.getBean("infoPrinter", MemberInfoPrinter.class);
 		infoPrinter.printMemberInfo(arg[1]);
 	}
 
