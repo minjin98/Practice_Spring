@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 public class IssueDao {
 
 	private JdbcTemplate jdbcTemplate;
-
+	
 	public IssueDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		System.out.println("[IssueDao]" + this.toString());

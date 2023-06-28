@@ -27,7 +27,7 @@ public class MainForIssueDao {
 		System.out.println("전체 데이터: " + total);
 		List<Issue> Issues = issueDao.selectAll();
 		for (Issue m : Issues) {
-			System.out.println(m.getIssueNo() + ":" + m.getIssueName() + ":" + m.getIssueInfo() + m.getTimestamp());
+			System.out.println(m.getIssueNo() + "-" + m.getIssueName() + "-" + m.getIssueInfo() + m.getTimestamp());
 		}
 	}
 
