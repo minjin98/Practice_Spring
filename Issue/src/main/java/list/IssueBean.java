@@ -9,7 +9,7 @@ public class IssueBean{
 	private String issueNo;
 	private String issueName;
 	private String issueInfo;
-	private LocalDateTime timestamp;
+	private String timestamp;
 	public int getArm_seq() {
 		return arm_seq;
 	}
@@ -40,10 +40,10 @@ public class IssueBean{
 	public void setIssueInfo(String issueInfo) {
 		this.issueInfo = issueInfo;
 	}
-	public LocalDateTime getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(LocalDateTime timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 	

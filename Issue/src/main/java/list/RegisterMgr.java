@@ -9,10 +9,10 @@ import java.util.Vector;
  
  public class RegisterMgr {
     
- 	private final String JDBC_DRIVER = "org.gjt.mm.mysql.Driver";
- 	private final String JDBC_URL = "jdbc:mysql://localhost:3306/mydb";
- 	private final String USER = "root";
- 	private final String PASS = "1234";
+	 	private final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	 	private final String JDBC_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	 	private final String USER = "HELLOUSER";
+	 	private final String PASS = "HELLOUSER";
  
  	public RegisterMgr() {
  	 try{
@@ -37,6 +37,7 @@ import java.util.Vector;
 		 	 bean.setIssueNo (rs.getString("IssueNo"));
 			 bean.setIssueName (rs.getString("IssueName"));
  			 bean.setIssueInfo (rs.getString("IssueInfo"));
+ 			 bean.setTimestamp (rs.getString("Timestamp"));
  			 vlist.addElement(bean);
           }
        } catch (Exception ex) {
