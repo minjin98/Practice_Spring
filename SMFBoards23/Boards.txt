@@ -1,0 +1,66 @@
+[ORACLE]
+
+-- BOARDS
+DROP TABLE boards;
+CREATE TABLE boards (
+	num	number(10),					-- 게시판 순번, 고유번호
+	name varchar2(50),				-- 작성자
+	subject varchar2(100),			-- 제목
+	content varchar2(2048),			-- 내용
+	pos number(7),					-- 게시물의 상대적 위치값
+	ref number(7),					-- 답글인 경우 부모의 번호
+	depth number(7),				-- 답글의 깊이			
+	regdate date default sysdate,	-- 작성일자
+	pass varchar2(15),				-- 패스워드
+	ip varchar2(15),				-- 작성자의 ip
+	count number(7),				-- 조회수
+	filename varchar2(128),			-- 업로드 파일이름
+	filesize number(11),			-- 업로드 파일크기
+	constraint pk_boards_num primary key(num)
+);
+
+
+-- 시퀀스 삭제    
+DROP SEQUENCE boards_seq;
+
+-- 시퀀스 생성
+CREATE SEQUENCE boards_seq
+    INCREMENT BY 1			-- 증가값
+    START WITH 1			-- 최초 시작값
+    MAXVALUE 99999			-- 최대 마지막값
+    MINVALUE 1				-- 다시 시작값
+    CYCLE					-- 반복(최대값에 도달 후 다시 처음부터 시작유무)
+    CACHE 2;				-- 캐시
+    
+----------------------------------------------------------------------
+
+SELECT * FROM boards_seq;    
+
+-- 다음번호 발행
+SELECT boards_seq.nextval FROM dual;
+
+-- 발행된 현재 번호 조회
+SELECT boards_seq.currval FROM dual;
+
+TRUNCATE TABLE boards;
+
+-- 데이터 입력
+INSERT INTO boards (num, name) VALUES(boards_seq.nextval, ' 계층형 게시판');
+INSERT INTO boards (num, pos, ref, name) VALUES(boards_seq.nextval, 0, boards_seq.currval, ' 계층형 게시판');
+
+-- 데이터 조회
+SELECT * FROM boards;
+    
+----------------------------------------------------------------------
+
+-- 게시물이 등록된 최근 데이터에서 해당하는 위치부터 10건 조회 
+(11g)
+SELECT rownum, b.* 
+    FROM (SELECT rownum rnum, b.* 
+            FROM (SELECT * FROM boards ORDER BY ref desc, pos) b
+) b
+WHERE rnum BETWEEN 10 AND 20;
+
+
+SELECT rownum, b.* FROM (SELECT rownum rnum, b.* FROM (SELECT * FROM boards ORDER BY ref desc, pos) b) b WHERE rnum BETWEEN 10 AND 20;
+
