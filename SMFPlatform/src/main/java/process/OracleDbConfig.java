@@ -1,4 +1,4 @@
-package config.db;
+package process;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
@@ -7,11 +7,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import config.db.OracleInfo;
-import spring.auth.AuthService;
-import controller.process.*;
-import spring.dao.UserDao;
-import spring.dao.UserRegisterService;
+import process.ProcessDao;
 
 @Configuration
 @EnableTransactionManagement
@@ -39,24 +35,9 @@ public class OracleDbConfig{
 		tm.setDataSource(dataSource());
 		return tm;
 	}
-
-	@Bean
-	public UserDao userDao() {
-		return new UserDao(dataSource());
-	}
-
-	@Bean
-	public UserRegisterService memberRegSvc() {
-		return new UserRegisterService(userDao());
-	}
 	
 	@Bean
-	public AuthService authService() {
-		AuthService authService = new AuthService();
-		authService.setuserDao(userDao());
-		return authService;
+	public ProcessDao processDao() {
+		return new ProcessDao(dataSource());
 	}
-	
-	
-	
 }

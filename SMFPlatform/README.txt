@@ -6,3 +6,7 @@
 %>
 
 RegisterMgr
+
+
+// 값을 받아오기 위한 new RegisterRequest()를 만듦
+model.addAttribute("registerRequest", new RegisterRequest());	 

@@ -65,7 +65,7 @@ series: [
   emphasis: {
     focus: 'series'
   },
-  data: [320,]
+  data: [320]
 },
 
 ]

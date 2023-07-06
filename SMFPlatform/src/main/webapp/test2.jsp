@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.*,config.db.*" %>
-<%@ page import="controller.process.*" %>
-<jsp:useBean id="regMgr" class="controller.process.RegisterMgr" />
+<%@ page import="java.util.*,controller.process.*" %>
+<%@ page import="java.util.*,controller.process.Process" %>
+<jsp:useBean id="proMgr" class="controller.process.ProcessDao" />
 
 <html>
 <head>
@@ -20,16 +20,16 @@
 	</tr>
 	
 	<%
-		Vector<ProcessBean> vlist = regMgr.getRegisterList();
-		int counter = vlist.size();
-		for(int i=0; i<vlist.size(); i++){
-			ProcessBean regBean =vlist.get(i);
+		List<Process> results = proMgr.selectAll();
+		int counter = results.size();
+		for(int i=0; i<results.size(); i++){
+			Process proBean =results.get(i);
 	%>
 	<tr>
-		<td><%=regBean.getProdName()%></td>
-		<td><%=regBean.getGood_count()%></td>
-		<td><%=regBean.getBad_count()%></td>
-		<td><%=regBean.getIssue_count()%></td>
+		<td><%=proBean.getProdName()%></td>
+		<td><%=proBean.getGood_count()%></td>
+		<td><%=proBean.getBad_count()%></td>
+		<td><%=proBean.getIssue_count()%></td>
 		
 	</tr>
 	<%

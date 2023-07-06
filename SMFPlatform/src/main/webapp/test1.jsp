@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo" %>
-<%@ page import="java.util.*,controller.process.*"%>
-<jsp:useBean id="regMgr" class="controller.process.RegisterMgr"/>
+<%@ page import="java.util.*,config.db.*"%>
+<%@ page import="controller.process.Process"%>
+<jsp:useBean id="proMgr" class="controller.process.ProcessDao"/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -126,10 +127,10 @@
                                     </h4>
                                 </header>
                                    <%
-								   Vector<ProcessBean> vlist = regMgr.getRegisterList();
-									int counter = vlist.size();
-									for(int i = 0; i < vlist.size(); i++) {
-								   		ProcessBean proBean = vlist.get(i);
+								   List<Process> results = proMgr.selectAll();
+									int counter = results.size();
+									for(int i = 0; i < results.size(); i++) {
+										Process proBean = results.get(i);
 									%>
                                 <div class = "body" style="height: 50px; min-height: 50px;" id="total">
                                     <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
