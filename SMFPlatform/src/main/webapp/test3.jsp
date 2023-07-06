@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo" %>
+<%@ page import="spring.auth.AuthInfo, java.util.List;" %>
 <%
-	Process pro = (Process)request.getAttribute("process");
+	List<Process> processList = (List<Process>)request.getAttribute("processList");
 %>
 <%--<%@ page import="java.util.*,process.*"%>
 <jsp:useBean id="proMgr" class="process.ProcessDao"/> --%>
