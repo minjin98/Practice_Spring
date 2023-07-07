@@ -22,10 +22,12 @@ public class MvcConfig implements WebMvcConfigurer {
 		configurer.enable();
 	}
 
+	/*
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/WEB-INF/view/", ".jsp");
 	}
+	*/
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
@@ -33,6 +35,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/").setViewName("main");
 	}
 
+	/*
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authCheckInterceptor())
@@ -40,7 +43,8 @@ public class MvcConfig implements WebMvcConfigurer {
 			.excludePathPatterns("/login/**")
 			.excludePathPatterns("/test/**");
 	}
-
+	*/
+	
 	@Bean
 	public AuthCheckInterceptor authCheckInterceptor() {
 		return new AuthCheckInterceptor();

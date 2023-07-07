@@ -5,6 +5,15 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1" metadata-complete="true">
+	
+	<servlet>
+	  <servlet-name>jsp</servlet-name>
+	  <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+	  <init-param>
+	  <param-name>mappedfile</param-name>
+	  <param-value>false</param-value>
+	 </init-param>
+	</servlet>
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
@@ -20,9 +29,9 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				config.db.OracleDbConfig
 				config.MvcConfig
-				config.ControllerConfig
+				process.OracleDbConfig  <!-- 기존 : config.OracleDbConfig -->
+				process.ControllerConfig <!-- 기존 : config.ControllerConfig -->
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

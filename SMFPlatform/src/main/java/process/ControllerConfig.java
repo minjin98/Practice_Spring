@@ -15,9 +15,8 @@ public class ControllerConfig {
 	private ProcessDao processDao;
 		
 	@Bean
-	public ProcessController memberController() {
+	public ProcessController processController() {
 		return new ProcessController(processDao);
 	}
-
 	
 }

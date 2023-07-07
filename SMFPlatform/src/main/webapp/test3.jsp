@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo, java.util.List;" %>
+<%@ page import="spring.auth.AuthInfo, java.util.List, process.ProcessBean" %>
+<%--
 <%
-	List<Process> processList = (List<Process>)request.getAttribute("processList");
+	List<ProcessBean> processList = (List<ProcessBean>)request.getAttribute("processList");
+	for(ProcessBean proc : processList) {
+		System.out.println(proc.getProdName());
+		System.out.println(proc.getGood_count());
+	}
 %>
-<%--<%@ page import="java.util.*,process.*"%>
-<jsp:useBean id="proMgr" class="process.ProcessDao"/> --%>
+ --%>
+<%--
+<%@ page import="java.util.*,process.*"%>
+<jsp:useBean id="proMgr" class="process.OracleDbConfig"/>  --%> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -137,7 +144,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:black;font-size:30px;">
-                                                   
+                                                    <c:forEach var="proc" items="${processList}" >
+                                                    	<span>${proc.prodName}</span>
+													</c:forEach>
                                                     </span>
                                             </ul>
                                         </ul>
@@ -160,6 +169,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:#0059ff;font-size:inherit;">
+                                                    <c:forEach var="proc" items="${processList}" >
+                                                    	<span>${proc.good_count}</span>
+													</c:forEach>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -184,6 +196,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:red;font-size:inherit;">
+                                                     <c:forEach var="proc" items="${processList}" >
+                                                    	<span>${proc.bad_count}</span>
+                                                    </c:forEach>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -208,6 +223,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:orange;font-size:inherit;">
+                                                      <c:forEach var="proc" items="${processList}" >
+                                                    	<span>${proc.issue_count}</span>
+                                                    </c:forEach>
                                                     </span>
                                                     <span class = "multi_value_unit">건</span>
                                                </span>
