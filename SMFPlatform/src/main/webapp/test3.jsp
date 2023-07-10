@@ -28,6 +28,7 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+        <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
         
     </head>
     <body class="sb-nav-fixed">
@@ -340,5 +341,6 @@
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
+     <script>fn_chart(); fn_chart1(); fn_chart2()</script>
   </body>
 </html>

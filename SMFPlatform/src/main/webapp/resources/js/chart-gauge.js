@@ -1,6 +1,7 @@
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
-	
+
+function gaugeChart(vals){
 	var dom = document.getElementById('myGaugeChart');  
 	var myChart = echarts.init(dom, null, {
 	    width: 330,
@@ -60,7 +61,7 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 	    },
 	    data: [
 	    {
-	        value: 70
+	        value: vals
 	    }
 	    ]
 	}
@@ -71,3 +72,24 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 	    myChart.setOption(option);
 	}
 	window.addEventListener('resize', myChart.resize);
+}
+//-------------------------------------------------------------------
+function fn_chart() {
+	
+	$.ajax({
+		type:"post",
+		async:false,  
+		url:"http://localhost:8584/SMFPlatform/process",
+		success:function (data,textStatus) {
+			var jsonVals = JSON.parse(data);
+			// alert(jsonVals);
+			gaugeChart(jsonVals);
+		},
+		error:function(data,textStatus){
+  			alert("에러발생: " + data);
+		},
+		complete:function(data,textStatus){
+  			// alert("수신완료");
+		}
+	});	 
+}

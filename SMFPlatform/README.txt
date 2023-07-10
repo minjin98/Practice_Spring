@@ -1,3 +1,5 @@
+콤보박스 항목에 호출 값을 지정해서 콤보박스 항목 선택시 해당된 값들이 호출(작업해야함)
+ 
  <%
    Vector<ProcessBean> vlist = regMgr.getRegisterList();
 	int counter = vlist.size();
@@ -6,6 +8,25 @@
 %>
 
 RegisterMgr
+
+
+<ProcessDao>
+// DB에서 여러개의 행을 받아와서 rs.getString을 이용해 칼럼별로 분리
+// 무조건 칼럼 기준이 아니라 행을 기준으로 계산한다.
+public List<ProcessBean> select_rate() {
+		List<ProcessBean> results = jdbcTemplate.query("select * from prod_rate",
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProcessBean process = new ProcessBean(
+								rs.getString("goodprod_rate"),
+								rs.getString("badprod_rate"));
+						return process;				
+					}
+			});
+	return results;
+	}
+
 
 
 
