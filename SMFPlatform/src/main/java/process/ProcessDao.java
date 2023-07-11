@@ -78,16 +78,29 @@ public class ProcessDao {
 				"select * from leadtime", String.class);
 		return process_leadtime;
 	}
-	
+	/*
 	public String selectcycletime() {
 		String process_cycletime = jdbcTemplate.queryForObject(
 				"select * from cycletime", String.class);
 		return process_cycletime;
 	}
+	*/
+	public List<ProcessBean> select_cycletime() {
+		List<ProcessBean> results = jdbcTemplate.query("select * from cycletime_1",
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProcessBean process = new ProcessBean(
+								rs.getString("cycletime"));
+						return process;				
+					}
+			});
+	return results;
+	}
 	
 	public int count() {
 		Integer count = jdbcTemplate.queryForObject(
-				"select count(*) from single_value", Integer.class);
+				"select count(*) from cycletime_1", Integer.class);
 		return count;
 	}
 

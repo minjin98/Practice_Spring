@@ -86,20 +86,30 @@ public class ProcessController {
 	//---------------------------------------------------------------------------------
 	@PostMapping("/process2")
 	public void doChart_time(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("[PieChart]");
+		System.out.println("[timechart]");
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
 		
 		String process_leadtime = processDao.selectleadtime();
-		System.out.println("Bar Chart : " + process_leadtime);
-		String process_cycletime = processDao.selectcycletime();
-		System.out.println("Bar Chart : " + process_cycletime);
+		System.out.println("Leadtime : " + process_leadtime);
+		
+		List<ProcessBean>process_cycletime = processDao.select_cycletime();
+		int count = processDao.count(); 
+		System.out.println("Cycletime : " + count);
 		
 		JSONArray chart = new JSONArray();
 		chart.add(process_leadtime);
-		chart.add(process_cycletime);
 		
+		for(ProcessBean p : process_cycletime) {
+			chart.add(p.getCycletime());
+		}
+		
+		/*
+		JSONArray chart = new JSONArray();
+		chart.add(process_leadtime);
+		chart.add(process_cycletime);
+		*/
 		String jsonInfo = chart.toJSONString();
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);

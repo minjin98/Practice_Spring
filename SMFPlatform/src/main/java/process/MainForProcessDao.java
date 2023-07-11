@@ -26,14 +26,22 @@ public class MainForProcessDao {
 		ProcessBean process = processDao.select_rate();
 		System.out.println(process.getGoodprod_rate());
 		System.out.println(process.getBadprod_rate());
+		System.out.println("-----------------------------");
 		
 		// leadtime
 		String process_leadtime = processDao.selectleadtime();
 		System.out.println(process_leadtime);
+		System.out.println("-----------------------------");
 		
 		// cycletime
-		String process_cycletime = processDao.selectcycletime();
-		System.out.println(process_cycletime);
+		int count = processDao.count();
+		System.out.println(count);
+		System.out.println("-----------------------------");
+		List<ProcessBean> cycletime = processDao.select_cycletime();
+		System.out.println("리스트 사이즈 구하기 : " +cycletime.size());
+		for(ProcessBean p : cycletime) {
+			System.out.println(p.getCycletime());
+		}
 		
 		/*	
 		System.out.println("-----------------------------");

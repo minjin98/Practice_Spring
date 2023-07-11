@@ -1,5 +1,3 @@
-콤보박스 항목에 호출 값을 지정해서 콤보박스 항목 선택시 해당된 값들이 호출(작업해야함)
- 
  <%
    Vector<ProcessBean> vlist = regMgr.getRegisterList();
 	int counter = vlist.size();
@@ -45,6 +43,12 @@ public List<ProcessBean> select_rate() {
 <c:forEach var="proc" items="${processList}" >
     <span>${proc.prodName}</span>
 </c:forEach>	
+
+
+
+콤보박스 항목에 호출 값을 지정해서 콤보박스 항목 선택시 해당된 값들이 호출(작업해야함)
+Bar chart 의 cycletime 데이터 랜덤 출력
+Controller 집중적으로 보기
 
 <통합>
 1. web.xml 주석부분으로 수정

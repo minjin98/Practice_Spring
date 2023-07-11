@@ -341,6 +341,10 @@
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
-     <script>fn_chart(); fn_chart1(); fn_chart2()</script>
+     <script>
+     	fn_chart(); 
+     	fn_chart1(); 
+     	fn_start();
+     </script>
   </body>
 </html>

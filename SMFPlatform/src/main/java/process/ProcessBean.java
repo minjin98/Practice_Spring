@@ -11,6 +11,7 @@ public class ProcessBean{
 	private String badprod_rate;
 	private String leadtime;
 	private String av_cycle;
+	private String cycletime;
 	
 	public ProcessBean(String prodName, String good_count, String bad_count, String issue_count) 
 	{
@@ -26,6 +27,10 @@ public class ProcessBean{
 		this.badprod_rate = badprod_rate;
 	}
 	
+	public ProcessBean(String cycletime)
+	{
+		this.cycletime = cycletime;
+	}
 
 	public String getProdName() {
 		return prodName;
@@ -84,6 +89,14 @@ public class ProcessBean{
 		this.av_cycle = av_cycle;
 	}
 
+	public String getCycletime() {
+		return cycletime;
+	}
+
+	public void setCycletime(String cycletime) {
+		this.cycletime = cycletime;
+	}
+	
 	
 	
 }
