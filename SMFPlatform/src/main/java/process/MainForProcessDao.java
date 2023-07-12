@@ -43,6 +43,16 @@ public class MainForProcessDao {
 			System.out.println(p.getCycletime());
 		}
 		
+		System.out.println("-----------------------------");
+		List<ProcessBean> material = processDao.select_material();
+		System.out.println("material 소비량");
+		for(ProcessBean p : material) {
+			System.out.println(p.getMaterialname());
+		}
+		for(ProcessBean p : material) {
+			System.out.println(p.getMaterialqty());
+		}
+		
 		/*	
 		System.out.println("-----------------------------");
 		ProcessBean process_time = processDao.select_time();

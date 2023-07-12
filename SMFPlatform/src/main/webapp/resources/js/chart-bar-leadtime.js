@@ -5,7 +5,7 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
  function barChart(vals) {
 	taskChart(vals, 1);
  }
- 
+ //-------------------------------------------------------------------
  function taskChart(vals, cnt) {
  // cnt가 vals의 길이를 넘어가면 종료
  	if(cnt >= vals.length) {
@@ -13,15 +13,18 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
  	}
  	// v0에 vals[0] (leadtime) 값을 삽입
  	var v0 = vals[0];
+ 	
  	// v1은 vals[cnt] 값(100개의 데이터를 순서대로 삽입)
 	var v1 = vals[cnt];
+	
 	// drawChart 호출
 	drawChart(v0, v1);
- 	console.log("taskChart: cnt=", cnt, v0, ', ', v1);
+	
+ 	//console.log("taskChart: cnt=", cnt, v0, ', ', v1);
 	// 1초에 한번씩 taskChart를 재귀호출 후 cnt 값 +1  	
 	setTimeout(taskChart, 1000, vals, ++cnt);
  }
- 
+ //-------------------------------------------------------------------
  function drawChart(v0, v1) {
 	var dom = document.getElementById('myBarChart');
 	var myChart = echarts.init(dom, null, {

@@ -243,7 +243,7 @@
                             <!-- <div class="card mb-4"> -->
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Gauge Chart Example
+                                        게이지차트
                                     </div>
                                     <div class="card-body"><canvas id="myGaugeChart" width="100%" ></canvas></div>
                             </div>
@@ -252,9 +252,9 @@
                             <div class="card mb-4" style = "width : 100%">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Pie Chart Example
+                                        파이차트
                                     </div>
-                                    <div class="card-body"><canvas id="myPieChart" width="100%" height ="75"></canvas></div>
+                                    <div class="card-body"><canvas id="myPieChart" width="100%" height ="95"></canvas></div>
                             </div>
                    	 </div>
                    	 <!-- 움직이는 차트 만들기 -->
@@ -262,9 +262,9 @@
                             <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Line Chart Example
+                                        소비 재고 차트
                                     </div>
-                                    <div class="card-body"><canvas id="myLineChart" width="100%" height="70"></canvas></div>
+                                    <div class="card-body"><canvas id="myBarChart2" width="100%" height="70"></canvas></div>
                             </div>
                    	 </div>
                  <div class = "row">
@@ -272,7 +272,7 @@
 	                 	<div class="card mb-4">
                         	<div class="card-header">
                             	<i class="fas fa-chart-bar me-1"></i>
-                            	Bar Chart Example
+                            	바차트
                         	</div>
                         <div class="card-body"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
 	                 	</div>
@@ -281,7 +281,7 @@
                     	<div class="card mb-4">
 	                        <div class="card-header">
 	                        	<i class="fas fa-table me-1"></i>
-	                        	DataTable Example
+	                        	데이터테이블
 	                        </div>
 	                        <div class="card-body">
 	                        	<table id="datatablesSimple">
@@ -337,6 +337,7 @@
      <script src="resources/js/chart-gauge.js"></script>
      <script src="resources/js/chart-line-cycletime.js"></script>
      <script src="resources/js/chart-bar-leadtime.js"></script>
+     <script src="resources/js/chart-bar-produce.js"></script>
      <script src="resources/js/chart-pie.js"></script>
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -345,6 +346,6 @@
      	fn_chart(); 
      	fn_chart1(); 
      	fn_start();
-     </script>
+		fn_chart3();     </script>
   </body>
 </html>

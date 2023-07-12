@@ -10,8 +10,12 @@ public class ProcessBean{
 	private String goodprod_rate;
 	private String badprod_rate;
 	private String leadtime;
-	private String av_cycle;
 	private String cycletime;
+	private String materialname;
+	private String materialqty;
+	
+	// DEFAULT 생성자
+	public ProcessBean() {}
 	
 	public ProcessBean(String prodName, String good_count, String bad_count, String issue_count) 
 	{
@@ -27,10 +31,6 @@ public class ProcessBean{
 		this.badprod_rate = badprod_rate;
 	}
 	
-	public ProcessBean(String cycletime)
-	{
-		this.cycletime = cycletime;
-	}
 
 	public String getProdName() {
 		return prodName;
@@ -82,12 +82,7 @@ public class ProcessBean{
 	public void setLeadtime(String leadtime) {
 		this.leadtime = leadtime;
 	}
-	public String getAv_cycle() {
-		return av_cycle;
-	}
-	public void setAv_cycle(String av_cycle) {
-		this.av_cycle = av_cycle;
-	}
+	
 
 	public String getCycletime() {
 		return cycletime;
@@ -96,7 +91,22 @@ public class ProcessBean{
 	public void setCycletime(String cycletime) {
 		this.cycletime = cycletime;
 	}
-	
+
+	public String getMaterialname() {
+		return materialname;
+	}
+
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
+	}
+
+	public String getMaterialqty() {
+		return materialqty;
+	}
+
+	public void setMaterialqty(String materialqty) {
+		this.materialqty = materialqty;
+	}
 	
 	
 }

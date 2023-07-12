@@ -5,7 +5,7 @@ function gaugeChart(vals){
 	var dom = document.getElementById('myGaugeChart');  
 	var myChart = echarts.init(dom, null, {
 	    width: 330,
-	    height: 230,
+	    height: 300,
 	    renderer: 'canvas',
 	    useDirtyRect: false
 	});

@@ -90,8 +90,23 @@ public class ProcessDao {
 				new RowMapper<ProcessBean>() {
 					@Override
 					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
-						ProcessBean process = new ProcessBean(
-								rs.getString("cycletime"));
+						ProcessBean process = new ProcessBean();
+						process.setCycletime(rs.getString("cycletime"));
+						return process;				
+					}
+			});
+	return results;
+	}
+	
+	public List<ProcessBean> select_material() {
+		List<ProcessBean> results = jdbcTemplate.query("select * from result_material",
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						// DEFAULT 생성자 이용
+						ProcessBean process = new ProcessBean(); 
+						process.setMaterialname(rs.getString("matername"));
+						process.setMaterialqty(rs.getString("materqty"));
 						return process;				
 					}
 			});

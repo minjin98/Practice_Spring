@@ -84,6 +84,7 @@ public class ProcessController {
 		writer.print(jsonInfo);
 	}
 	//---------------------------------------------------------------------------------
+	
 	@PostMapping("/process2")
 	public void doChart_time(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		System.out.println("[timechart]");
@@ -114,6 +115,29 @@ public class ProcessController {
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
+	//---------------------------------------------------------------------------------
+	@PostMapping("/process3")
+	public void doChart_material(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		System.out.println("[timechart]");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		List<ProcessBean>process_material = processDao.select_material();
+		System.out.println("Material : " + process_material);
+		JSONArray chart = new JSONArray();
+		for(ProcessBean p : process_material) {
+			chart.add(p.getMaterialname());
+		}
+		for(ProcessBean p : process_material) {
+			chart.add(p.getMaterialqty());
+		}
+		String jsonInfo = chart.toJSONString();
+		System.out.println(jsonInfo);
+		writer.print(jsonInfo);
+	}
+	
+	
 	//---------------------------------------------------------------------------------
 	
 	/*

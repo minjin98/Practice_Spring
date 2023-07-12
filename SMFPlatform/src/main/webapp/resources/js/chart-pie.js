@@ -6,9 +6,10 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 function pieChart(vals){
 	var ctx = document.getElementById("myPieChart");
 	var myPieChart = new Chart(ctx, {
+	  height : 300,
 	  type: 'pie',
 	  data: {
-	    labels: ["Blue", "Red"],
+	    labels: ["양품률", "불량률"],
 	    datasets: [{
 	      data: vals,
 	      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
@@ -25,7 +26,8 @@ function fn_chart1() {
 		url:"http://localhost:8584/SMFPlatform/process1",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
-			// alert(jsonVals);
+			//alert(jsonVals[0]);
+			//alert(jsonVals[1]);
 			pieChart(jsonVals);
 		},
 		error:function(data,textStatus){
