@@ -1,22 +1,21 @@
-function barChart2(jval){
-	var title = new Array();
-	var value = new Array();
-	for(i = 0; i<3; i++){
-		title[i] = jval[i];
-		value[i] = jval[i+8];
-		console.log("title : "+ title);
-		console.log("value : "+ value);
-		console.log("drawChart2 호출");
+function barChart3(jval){
+	var title2 = new Array();
+	var value2 = new Array();
+	for(i = 3; i<7; i++){
+		title2[i-3] = jval[i];
+		value2[i-3] = jval[i+8];
+		console.log("title2 : "+ title2);
+		console.log("value2 : "+ value2);
 	}
-	console.log("title : " +title);
-	console.log("value : " +value);
-	drawChart2(title,value);	
+	console.log("title2 : " +title2);
+	console.log("value2 : " +value2);
+	drawChart3(title2,value2);	
 }
 //-------------------------------------------------------------------
-function drawChart2(title, value){
-    var dom = document.getElementById('myBarChart2');
+function drawChart3(title2, value2){
+    var dom = document.getElementById('myBarChart3');
     var myChart = echarts.init(dom, null, {
-    width : 230,
+    width : 330,
     height : 300,
       renderer: 'canvas',
       useDirtyRect: false
@@ -41,7 +40,7 @@ function drawChart2(title, value){
   xAxis: [
     {
       type: 'category',
-	  data: title,
+	  data: title2,
       axisTick: {
         alignWithLabel: true
       }
@@ -57,7 +56,7 @@ function drawChart2(title, value){
       name: 'Direct',
       type: 'bar',
       barWidth: '60%',
-      data: value
+      data: value2
     }
   ]
 };
@@ -71,16 +70,16 @@ function drawChart2(title, value){
     
 //-------------------------------------------------------------------
 
-function fn_chart3() {
+function fn_chart4() {
 	
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"http://localhost:8584/SMFPlatform/process3",
+		url:"http://localhost:8584/SMFPlatform/process4",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
 			// alert(jsonVals); 알림창 뜨기(넘어오는 값 확인할 때 좋을듯)
-			barChart2(jsonVals);
+			barChart3(jsonVals);
 		},
 		error:function(data,textStatus){
   			alert("에러발생: " + data);

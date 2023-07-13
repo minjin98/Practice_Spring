@@ -34,6 +34,21 @@ public class ProcessDao {
 			});
 	return results;
 	}
+	// 이슈 내용 가져오기
+	public List<ProcessBean> selectIssueAll() {
+		List<ProcessBean> results = jdbcTemplate.query("select * from issues",
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProcessBean process = new ProcessBean();
+								process.setIssueNo(rs.getString("issueNo"));
+								process.setIssueInfo(rs.getString("issueInfo"));
+								process.setTimeStamp(rs.getString("timestamp"));
+						return process;				
+					}
+			});
+	return results;
+	}
 	
 	// 공정 진행률(게이지 차트) 1건
 	public String selectGauge() {
@@ -106,7 +121,7 @@ public class ProcessDao {
 						// DEFAULT 생성자 이용
 						ProcessBean process = new ProcessBean(); 
 						process.setMaterialname(rs.getString("matername"));
-						process.setMaterialqty(rs.getString("materqty"));
+						process.setMaterialqty(rs.getString("QTY"));
 						return process;				
 					}
 			});

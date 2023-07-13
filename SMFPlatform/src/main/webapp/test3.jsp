@@ -52,7 +52,7 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
-                        <c:if test="${sessionScope.authInfo.getAdmin()}">
+                        < <c:if test="${sessionScope.authInfo.getAdmin()}">
 	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
@@ -125,10 +125,27 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Test</h1>
+                    <div class = "row">
+                    	<div class="col-md-4">
+                        	<h1 class="mt-4">공정결과</h1>
+                        </div>
+                        <div class="col-md-4">
+                        	<h1 class="mt-4"></h1>
+                        </div>
+                        <div class="col-md-4">
+				             <h2 class="col-mt-4 justify-content:flex-end">
+				                <form>
+				                	<select name = "공정선택"> 
+				                		<option value = "Python" selected>1공정</option>
+								          <option value = "MATLAB">2공정</option>
+								          <option value = "HTML">3공정</option>
+								    </select>     
+				                </form>
+				            </h2>
+				        </div>    
+                        </div>
                     </div>
                       <div class="row" style="width:100%; padding-left: 10px;">
-                      
                         <div class="col-md-3">
                             <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
                                 <header>
@@ -238,35 +255,56 @@
                         </div>
                       
                     <div class="row" style ="width:100%">
-                    <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:25px">
+                    <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
                             <div class="card mb-4" style = "width :100%">
                             <!-- <div class="card mb-4"> -->
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        게이지차트
+                                        가동률
                                     </div>
                                     <div class="card-body"><canvas id="myGaugeChart" width="100%" ></canvas></div>
                             </div>
                    	 </div>
-                        <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:25px">
+                        <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
                             <div class="card mb-4" style = "width : 100%">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        파이차트
+                                        수율
                                     </div>
-                                    <div class="card-body"><canvas id="myPieChart" width="100%" height ="95"></canvas></div>
+                                    <div class="card-body">
+                                    	<canvas id="myPieChart" width="100%" height ="95"></canvas>
+                                    </div>
                             </div>
                    	 </div>
                    	 <!-- 움직이는 차트 만들기 -->
-                   	  <div class="col-xl-6" style = "width : 50%; heigth : 200px; padding-top: 25px; padding-left:30px">
+                   	  <div class="col-xl-6" style = "width : 18%; heigth : 200px; padding-top: 20px; padding-left:20px">
                             <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        소비 재고 차트
+                                        소비 재고 차트(大)
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart2" width="100%" height="70"></canvas></div>
                             </div>
                    	 </div>
+                   	 <div class="col-xl-6" style = "width : 23%; heigth : 200px; padding-top: 20px; padding-left:5px">
+                            <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        소비 재고 차트(小)
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart3" width="100%" height="70"></canvas></div>
+                            </div>
+                   	 </div>
+                   	 <div class="col-xl-6" style = "width : 9%; heigth : 200px; padding-top: 20px; padding-left:5px">
+                            <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        공통자재
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart4" width="100%" height="70"></canvas></div>
+                            </div>
+                   	 </div>
+                 
                  <div class = "row">
 	                 <div class="col-xl-6" style = "width : 50%">
 	                 	<div class="card mb-4">
@@ -288,41 +326,27 @@
 	                            	<thead>
 		                                <tr>
 		                                    <th>이슈이름</th>
-		                                    <th>Position</th>
-		                                    <th>Office</th>
-		                                    <th>Age</th>
-		                                    <th>Start date</th>
-		                                    <th>Salary</th>
+		                                    <th>이슈내용</th>
+		                                    <th>발생일자</th>
 		                                </tr>
 	                            	</thead>
-	                            	<tfoot>
+                                    <tbody>
+                                       <c:forEach var="issue" items="${issueList}" >
+	                                        <tr>
+	                                           <td>${issue.issueNo}</td>
+	                                            <td>${issue.issueInfo}</td>
+    	                                        <td>${issue.timeStamp}</td>
+	                                           
+	                                        </tr>
+										</c:forEach>
+                                    </tbody>
+                                      	<tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>이슈</th>
+                                            <th>이슈내용</th>
+                                            <th>발생일자</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                        		</div>
                 	 	</div>
@@ -338,6 +362,8 @@
      <script src="resources/js/chart-line-cycletime.js"></script>
      <script src="resources/js/chart-bar-leadtime.js"></script>
      <script src="resources/js/chart-bar-produce.js"></script>
+     <script src="resources/js/chart-bar-produce2.js"></script>
+     <script src="resources/js/chart-bar-produce3.js"></script>
      <script src="resources/js/chart-pie.js"></script>
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -346,6 +372,9 @@
      	fn_chart(); 
      	fn_chart1(); 
      	fn_start();
-		fn_chart3();     </script>
+		fn_chart3();
+		fn_chart4();
+		fn_chart5();
+		</script>
   </body>
 </html>

@@ -53,6 +53,13 @@ public class MainForProcessDao {
 			System.out.println(p.getMaterialqty());
 		}
 		
+		System.out.println("-----------------------------");
+		List<ProcessBean>issues = processDao.selectIssueAll();
+		System.out.println("이슈 정보 출력");
+		for(ProcessBean p : issues) {
+			System.out.println(p.getIssueNo() +'/'+ p.getIssueInfo()+'/' + p.getTimeStamp());
+		}
+		
 		/*	
 		System.out.println("-----------------------------");
 		ProcessBean process_time = processDao.select_time();

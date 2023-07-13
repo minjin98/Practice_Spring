@@ -1,22 +1,15 @@
-function barChart2(jval){
-	var title = new Array();
-	var value = new Array();
-	for(i = 0; i<3; i++){
-		title[i] = jval[i];
-		value[i] = jval[i+8];
-		console.log("title : "+ title);
-		console.log("value : "+ value);
-		console.log("drawChart2 호출");
-	}
-	console.log("title : " +title);
-	console.log("value : " +value);
-	drawChart2(title,value);	
+function barChart4(jval){
+	var title3 = jval[7];
+	var value3 = jval[15];
+	console.log("title3 : " +title3);
+	console.log("value3 : " +value3);
+	drawChart4(title3,value3);	
 }
 //-------------------------------------------------------------------
-function drawChart2(title, value){
-    var dom = document.getElementById('myBarChart2');
+function drawChart4(title3, value3){
+    var dom = document.getElementById('myBarChart4');
     var myChart = echarts.init(dom, null, {
-    width : 230,
+    width : 100,
     height : 300,
       renderer: 'canvas',
       useDirtyRect: false
@@ -41,7 +34,7 @@ function drawChart2(title, value){
   xAxis: [
     {
       type: 'category',
-	  data: title,
+	  data: [title3],
       axisTick: {
         alignWithLabel: true
       }
@@ -57,7 +50,7 @@ function drawChart2(title, value){
       name: 'Direct',
       type: 'bar',
       barWidth: '60%',
-      data: value
+      data: [value3]
     }
   ]
 };
@@ -71,16 +64,16 @@ function drawChart2(title, value){
     
 //-------------------------------------------------------------------
 
-function fn_chart3() {
+function fn_chart5() {
 	
 	$.ajax({
 		type:"post",
 		async:false,  
-		url:"http://localhost:8584/SMFPlatform/process3",
+		url:"http://localhost:8584/SMFPlatform/process5",
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
 			// alert(jsonVals); 알림창 뜨기(넘어오는 값 확인할 때 좋을듯)
-			barChart2(jsonVals);
+			barChart4(jsonVals);
 		},
 		error:function(data,textStatus){
   			alert("에러발생: " + data);

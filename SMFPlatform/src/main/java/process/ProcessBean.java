@@ -13,6 +13,9 @@ public class ProcessBean{
 	private String cycletime;
 	private String materialname;
 	private String materialqty;
+	private String issueNo;
+	private String issueInfo;
+	private String timeStamp;
 	
 	// DEFAULT 생성자
 	public ProcessBean() {}
@@ -106,6 +109,30 @@ public class ProcessBean{
 
 	public void setMaterialqty(String materialqty) {
 		this.materialqty = materialqty;
+	}
+
+	public String getIssueNo() {
+		return issueNo;
+	}
+
+	public void setIssueNo(String issueNo) {
+		this.issueNo = issueNo;
+	}
+
+	public String getIssueInfo() {
+		return issueInfo;
+	}
+
+	public void setIssueInfo(String issueInfo) {
+		this.issueInfo = issueInfo;
+	}
+
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(String timeStamp) {
+		this.timeStamp = timeStamp;
 	}
 	
 	
