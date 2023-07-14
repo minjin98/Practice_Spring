@@ -29,10 +29,50 @@ public class ProcessController {
 	public ProcessController(ProcessDao processDao) {
 		this.processDao = processDao;
 	}
-
+	/*
+	@GetMapping("/process") // 주소창에 /process 입력시 실행
+    public String single_value(Model model) {
+		List<ProcessBean> single = processDao.selectAll();
+		for(ProcessBean p : single) {
+			
+		model.addAttribute("single", single);
+		}
+		List<ProcessBean> issueList = processDao.selectIssueAll();
+		System.out.println("issueList" + issueList);
+		model.addAttribute("issueList", issueList);
+		return "test3.jsp";
+	}*/
+	
 		@GetMapping("/process") // 주소창에 /process 입력시 실행
-	    public String single_value(Model model) {
-			List<ProcessBean> processList = processDao.selectAll();
+	    public String single_value(Model model,@RequestParam("procid") String procid) {
+			System.out.println("[ProcessController] /process : procid=" + procid);
+
+			String prodName = processDao.selectProdName(procid);
+			model.addAttribute("prodName", prodName);
+			System.out.println("[ProcessController] /process : prodName=" + prodName);
+			
+			System.out.println("procid : " + procid);
+			String goodProd = processDao.selectGood_prod(procid);
+			model.addAttribute("goodProd", goodProd);
+			
+			String badProd = processDao.selectBad_prod(procid);
+			model.addAttribute("badProd", badProd);
+			
+			String issueCount = processDao.selectIssue_count(procid);
+			model.addAttribute("issueCount", issueCount);
+			
+			List<ProcessBean> issueList = processDao.selectIssueAll();
+			System.out.println("issueList" + issueList);
+			model.addAttribute("issueList", issueList);
+			return "test3.jsp";
+		}
+		
+/*
+		@GetMapping("/process1") // 주소창에 /process 입력시 실행
+	    public String single_value1(Model model, @RequestParam("procid") String procid) {
+			System.out.println("[ProcessController] /process1 : procid=" + procid);
+			
+			List<ProcessBean> processList = processDao.selectById(procid);
 			System.out.println("processList" + processList);
 			model.addAttribute("processList", processList);
 			
@@ -41,10 +81,32 @@ public class ProcessController {
 			model.addAttribute("issueList", issueList);
 			return "test3.jsp";
 		}
-			
+
+		*/
 		//---------------------------------------------------------------------------------
-		
-		@PostMapping("/process") // 주소창에 /process 입력시 실행
+		/*
+		@PostMapping("/process") 
+		public void doChart_gauge(HttpServletRequest request, HttpServletResponse response,
+				@RequestParam(value="procid", required=false ) String procid) throws ServletException, IOException{
+			System.out.println("[GaugeChart]");
+			request.setCharacterEncoding("utf-8");
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			
+			// DB에 저장된 값을 process_gauge 변수에 저장
+			String process_gauge = processDao.selectGauge();
+			System.out.println("Gauge Chart : " + process_gauge);
+			// JSON 배열 선언
+			JSONArray chart = new JSONArray();
+			// xvals에 DB에서 받아온 변수값 저장
+			String xvals = process_gauge;
+			chart.add(xvals);
+			
+			String jsonInfo = chart.toJSONString();
+			System.out.println(jsonInfo);
+			writer.print(jsonInfo);
+		}*/
+		@PostMapping("/process") 
 		public void doChart_gauge(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 			System.out.println("[GaugeChart]");
 			request.setCharacterEncoding("utf-8");
@@ -75,14 +137,16 @@ public class ProcessController {
 			
 			// DB에 저장된 값을 process_gauge 변수에 저장
 			// List<ProcessBean>process = processDao.select_rate();
-			ProcessBean process = processDao.select_rate();
+			List<ProcessBean> process = processDao.select_rate();
 			System.out.println("Pie Chart : " + process);
 			// JSON 배열 선언
 			JSONArray chart = new JSONArray();
 			// xvals에 DB에서 받아온 변수값 저장
 			// for(ProcessBean k : process) {
-			chart.add(process.getGoodprod_rate());
-			chart.add(process.getBadprod_rate());
+			for(ProcessBean p : process) {
+				chart.add(p.getGoodprod_rate());
+				chart.add(p.getBadprod_rate());
+			}
 			// }
 			String jsonInfo = chart.toJSONString();
 			System.out.println(jsonInfo);

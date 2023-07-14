@@ -74,7 +74,7 @@ function gaugeChart(vals){
 	window.addEventListener('resize', myChart.resize);
 }
 //-------------------------------------------------------------------
-function fn_chart() {
+function fn_chart(_procid) {
 	
 	$.ajax({
 		type:"post",

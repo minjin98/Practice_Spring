@@ -2,18 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo, java.util.List, process.ProcessBean" %>
-<%--
-<%
-	List<ProcessBean> processList = (List<ProcessBean>)request.getAttribute("processList");
-	for(ProcessBean proc : processList) {
-		System.out.println(proc.getProdName());
-		System.out.println(proc.getGood_count());
-	}
-%>
- --%>
-<%--
-<%@ page import="java.util.*,process.*"%>
-<jsp:useBean id="proMgr" class="process.OracleDbConfig"/>  --%> 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,8 +19,18 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
-        
     </head>
+     <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 --%> 
+        <script>
+	        $(document).ready(function() {
+		        $("#procid").change(function() {
+		        	var procid = $("#procid").val();
+		  			alert(procid);
+		  			var formProc = $("#procForm");
+		  			formProc.submit();
+		        });
+			});
+        </script>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
         <script src="resources/js/kor_clock.js"></script>
@@ -133,15 +133,14 @@
                         	<h1 class="mt-4"></h1>
                         </div>
                         <div class="col-md-4">
-				             <h2 class="col-mt-4 justify-content:flex-end">
-				                <form>
-				                	<select name = "공정선택"> 
-				                		<option value = "Python" selected>1공정</option>
-								          <option value = "MATLAB">2공정</option>
-								          <option value = "HTML">3공정</option>
+                 			 	<form id="procForm" action="${contextPath}/process" method="get">
+				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
+				                		<option>공정선택</option> 
+				                		<option value = "KBD001">1공정</option>
+								        <option value = "KBD002">2공정</option>
+								        <option value = "KBC001">3공정</option>
 								    </select>     
 				                </form>
-				            </h2>
 				        </div>    
                         </div>
                     </div>
@@ -162,9 +161,7 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:black;font-size:30px;">
-                                                    <c:forEach var="proc" items="${processList}" >
-                                                    	<span>${proc.prodName}</span>
-													</c:forEach>
+                                                   	<span>${prodName}</span>
                                                     </span>
                                             </ul>
                                         </ul>
@@ -172,6 +169,7 @@
                                 </div>
                             </section>
                         </div>
+                        
                         <div class="col-md-3">
                             <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
                                 <header>
@@ -187,9 +185,7 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:#0059ff;font-size:inherit;">
-                                                    <c:forEach var="proc" items="${processList}" >
-                                                    	<span>${proc.good_count}</span>
-													</c:forEach>
+                                                    <span>${goodProd}</span>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -214,9 +210,7 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:red;font-size:inherit;">
-                                                     <c:forEach var="proc" items="${processList}" >
-                                                    	<span>${proc.bad_count}</span>
-                                                    </c:forEach>
+                                                    	<span>${badProd}</span>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -241,9 +235,7 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:orange;font-size:inherit;">
-                                                      <c:forEach var="proc" items="${processList}" >
-                                                    	<span>${proc.issue_count}</span>
-                                                    </c:forEach>
+                                                		<span>${issueCount}</span>
                                                     </span>
                                                     <span class = "multi_value_unit">건</span>
                                                </span>
@@ -369,12 +361,14 @@
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
      <script>
-     	fn_chart(); 
+     	
+     	fn_chart();
      	fn_chart1(); 
      	fn_start();
 		fn_chart3();
 		fn_chart4();
 		fn_chart5();
+		
 		</script>
   </body>
 </html>

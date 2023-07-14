@@ -14,6 +14,29 @@ public class MainForProcessDao {
 		System.out.println("생성된 빈이 있는 클래스 연결");
 		processDao = ctx.getBean(ProcessDao.class); // 객체에 위의 정의된 빈 사용
 		
+		//selectAll();
+		
+		String prodName = processDao.selectProdName("KBD001");
+		System.out.println(prodName);
+		/*
+		String goodProd = processDao.selectGood_prod("KBD001");
+		System.out.println(goodProd);
+		
+		
+		String badProd = processDao.selectBad_prod("KBD001");
+		System.out.println(badProd);
+		
+		String issueCount = processDao.selectIssue_count("KBD001");
+		System.out.println(issueCount);
+		
+		String gauge = processDao.selectGauge("KBD001");
+		System.out.println(gauge);
+		
+		List<ProcessBean> goodbad = processDao.select_rate("KBD001");
+		for(ProcessBean p : goodbad) {
+			System.out.println(p.getGoodprod_rate() +"/" + p.getBadprod_rate());
+		}*/
+		/*
 		selectAll();
 		//selectAll2();
 		// selectAll2()와 동일
@@ -74,7 +97,7 @@ public class MainForProcessDao {
 
 		ctx.close();
 	}
-	
+	/*
 	private static void selectAll() {
 		System.out.println("----- selectAll");
 		List<ProcessBean> process = processDao.selectAll();

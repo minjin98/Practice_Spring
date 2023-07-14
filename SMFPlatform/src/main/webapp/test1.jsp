@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo" %>
-<%@ page import="java.util.*,config.db.*"%>
-<%@ page import="controller.process.Process"%>
-<jsp:useBean id="proMgr" class="controller.process.ProcessDao"/>
+<%@ page import="spring.auth.AuthInfo, java.util.List, process.ProcessBean" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -19,8 +18,21 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-        
+        <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
     </head>
+     <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 
+        <script>
+        	var _proc_id = 'KBD001';
+        	
+	        $(document).ready(function() {
+		        $("#procid").change(function() {
+		        	var procid = $("#procid").val();
+		  			alert(procid);
+		  			var formProc = $("#procForm");
+		  			formProc.submit();
+		        });
+			});
+        </script>--%>
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
         <script src="resources/js/kor_clock.js"></script>
@@ -42,7 +54,7 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <!-- contents for admin -->
-                        <c:if test="${sessionScope.authInfo.getAdmin()}">
+                        < <c:if test="${sessionScope.authInfo.getAdmin()}">
 	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
 	                        <li><hr class="dropdown-divider" /></li>
                         </c:if>
@@ -115,10 +127,26 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Test</h1>
+                    <div class = "row">
+                    	<div class="col-md-4">
+                        	<h1 class="mt-4">공정결과</h1>
+                        </div>
+                        <div class="col-md-4">
+                        	<h1 class="mt-4"></h1>
+                        </div>
+                        <div class="col-md-4">
+                 			 	<form id="procForm" action="${contextPath}/process" method="get">
+				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
+				                		<option>공정선택</option> 
+				                		<option value = "KBD001">1공정</option>
+								        <option value = "KBD002">2공정</option>
+								        <option value = "KBC001">3공정</option>
+								    </select>     
+				                </form>
+				        </div>    
+                        </div>
                     </div>
                       <div class="row" style="width:100%; padding-left: 10px;">
-                      
                         <div class="col-md-3">
                             <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
                                 <header>
@@ -126,12 +154,7 @@
                                         <span style = "font-size: 20px;">제품명</span>
                                     </h4>
                                 </header>
-                                   <%
-								   List<Process> results = proMgr.selectAll();
-									int counter = results.size();
-									for(int i = 0; i < results.size(); i++) {
-										Process proBean = results.get(i);
-									%>
+                                   
                                 <div class = "body" style="height: 50px; min-height: 50px;" id="total">
                                     <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
                                     padding-top: 12.5px; padding-bottom: 12.5px;">
@@ -140,7 +163,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:black;font-size:30px;">
-                                                    <%=proBean.getProdName()%>
+                                                    <c:forEach var="prod" items="${single}" >
+                                                    	<span>${prod.prodName}</span>
+													</c:forEach>
                                                     </span>
                                             </ul>
                                         </ul>
@@ -163,7 +188,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:#0059ff;font-size:inherit;">
-                                                    <%=proBean.getGood_count()%>
+                                                    <c:forEach var="prod" items="${single}" >
+                                                    	<span>${prod.good_count}</span>
+													</c:forEach>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -188,7 +215,9 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:red;font-size:inherit;">
-                                                    <%=proBean.getBad_count()%>
+                                                     <c:forEach var="prod" items="${single}" >
+                                                    	<span>${prod.good_count}</span>
+                                                    </c:forEach>
                                                     </span>
                                                     <span class = "multi_value_unit">EA</span>
                                                </span>
@@ -213,9 +242,10 @@
                                                <span class="multi-val-label"></span> 
                                                <span class="multi-val-value multi-val-value-0">
                                                     <span class="multi_value_text" style ="color:orange;font-size:inherit;">
-                                                    <%=proBean.getIssue_count()%>
+                                                      <c:forEach var="prod" items="${single}" >
+                                                    	<span>${prod.issue_count}</span>
+                                                    </c:forEach>
                                                     </span>
-                                                    <%} %>
                                                     <span class = "multi_value_unit">건</span>
                                                </span>
                                             </ul>
@@ -226,41 +256,62 @@
                         </div>
                       
                     <div class="row" style ="width:100%">
-                    <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:25px">
+                    <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
                             <div class="card mb-4" style = "width :100%">
                             <!-- <div class="card mb-4"> -->
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Gauge Chart Example
+                                        가동률
                                     </div>
                                     <div class="card-body"><canvas id="myGaugeChart" width="100%" ></canvas></div>
                             </div>
                    	 </div>
-                        <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:25px">
+                        <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
                             <div class="card mb-4" style = "width : 100%">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Pie Chart Example
+                                        수율
                                     </div>
-                                    <div class="card-body"><canvas id="myPieChart" width="100%" height ="75"></canvas></div>
+                                    <div class="card-body">
+                                    	<canvas id="myPieChart" width="100%" height ="95"></canvas>
+                                    </div>
                             </div>
                    	 </div>
                    	 <!-- 움직이는 차트 만들기 -->
-                   	  <div class="col-xl-6" style = "width : 50%; heigth : 200px; padding-top: 25px; padding-left:30px">
+                   	  <div class="col-xl-6" style = "width : 18%; heigth : 200px; padding-top: 20px; padding-left:20px">
                             <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Line Chart Example
+                                        소비 재고 차트(大)
                                     </div>
-                                    <div class="card-body"><canvas id="myLineChart" width="100%" height="70"></canvas></div>
+                                    <div class="card-body"><canvas id="myBarChart2" width="100%" height="70"></canvas></div>
                             </div>
                    	 </div>
+                   	 <div class="col-xl-6" style = "width : 23%; heigth : 200px; padding-top: 20px; padding-left:5px">
+                            <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        소비 재고 차트(小)
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart3" width="100%" height="70"></canvas></div>
+                            </div>
+                   	 </div>
+                   	 <div class="col-xl-6" style = "width : 9%; heigth : 200px; padding-top: 20px; padding-left:5px">
+                            <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        공통자재
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart4" width="100%" height="70"></canvas></div>
+                            </div>
+                   	 </div>
+                 
                  <div class = "row">
 	                 <div class="col-xl-6" style = "width : 50%">
 	                 	<div class="card mb-4">
                         	<div class="card-header">
                             	<i class="fas fa-chart-bar me-1"></i>
-                            	Bar Chart Example
+                            	바차트
                         	</div>
                         <div class="card-body"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
 	                 	</div>
@@ -269,48 +320,34 @@
                     	<div class="card mb-4">
 	                        <div class="card-header">
 	                        	<i class="fas fa-table me-1"></i>
-	                        	DataTable Example
+	                        	데이터테이블
 	                        </div>
 	                        <div class="card-body">
 	                        	<table id="datatablesSimple">
 	                            	<thead>
 		                                <tr>
 		                                    <th>이슈이름</th>
-		                                    <th>Position</th>
-		                                    <th>Office</th>
-		                                    <th>Age</th>
-		                                    <th>Start date</th>
-		                                    <th>Salary</th>
+		                                    <th>이슈내용</th>
+		                                    <th>발생일자</th>
 		                                </tr>
 	                            	</thead>
-	                            	<tfoot>
+                                    <tbody>
+                                       <c:forEach var="issue" items="${issueList}" >
+	                                        <tr>
+	                                           <td>${issue.issueNo}</td>
+	                                            <td>${issue.issueInfo}</td>
+    	                                        <td>${issue.timeStamp}</td>
+	                                           
+	                                        </tr>
+										</c:forEach>
+                                    </tbody>
+                                      	<tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>이슈</th>
+                                            <th>이슈내용</th>
+                                            <th>발생일자</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                        		</div>
                 	 	</div>
@@ -325,9 +362,20 @@
      <script src="resources/js/chart-gauge.js"></script>
      <script src="resources/js/chart-line-cycletime.js"></script>
      <script src="resources/js/chart-bar-leadtime.js"></script>
+     <script src="resources/js/chart-bar-produce.js"></script>
+     <script src="resources/js/chart-bar-produce2.js"></script>
+     <script src="resources/js/chart-bar-produce3.js"></script>
      <script src="resources/js/chart-pie.js"></script>
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
+     <script>
+     	fn_chart();
+     	fn_chart1(); 
+     	fn_start();
+		fn_chart3();
+		fn_chart4();
+		fn_chart5();
+		</script>
   </body>
 </html>

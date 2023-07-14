@@ -50,6 +50,8 @@ public List<ProcessBean> select_rate() {
 Bar chart 의 cycletime 데이터 랜덤 출력
 Controller 집중적으로 보기
 
+String 으로 받은 객체는 for:each 로 반복할 수 없다.
+
 <통합>
 1. web.xml 주석부분으로 수정
 2. MvcConfig 주석 해제
