@@ -18,6 +18,35 @@ public class MainForProcessDao {
 		
 		String prodName = processDao.selectProdName("KBD001");
 		System.out.println(prodName);
+		
+		List<ProcessBean>process_gauge = processDao.selectGauge("KBD001");
+		for(ProcessBean p : process_gauge) {
+			System.out.println(p.getProcess_gauge());
+		}
+		
+		List<ProcessBean>process_rate = processDao.select_rate("KBD001");
+		for(ProcessBean p : process_rate) {
+			System.out.println(p.getGoodprod_rate()+'/' + p.getBadprod_rate());
+		}
+		
+		String leadtime = processDao.selectleadtime("KBD001");
+		System.out.println(leadtime);
+		
+		List<ProcessBean>cycletime = processDao.select_cycletime("KBD001");
+		for(ProcessBean p : cycletime) {
+			System.out.println(p.getCycletime());
+		}
+		
+		List<ProcessBean>material = processDao.select_material("KBD001");
+		
+		for(ProcessBean p : material) {
+			System.out.println(p.getMaterialname());
+		}
+		for(ProcessBean p : material) {
+			System.out.println(p.getMaterialqty());
+		}
+		
+		
 		/*
 		String goodProd = processDao.selectGood_prod("KBD001");
 		System.out.println(goodProd);

@@ -25,7 +25,7 @@
 	        $(document).ready(function() {
 		        $("#procid").change(function() {
 		        	var procid = $("#procid").val();
-		  			alert(procid);
+		  			<%--alert(procid);--%>
 		  			var formProc = $("#procForm");
 		  			formProc.submit();
 		        });
@@ -137,8 +137,8 @@
 				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
 				                		<option>공정선택</option> 
 				                		<option value = "KBD001">1공정</option>
-								        <option value = "KBD002">2공정</option>
-								        <option value = "KBC001">3공정</option>
+								        <option value = "KBD003">2공정</option>
+								        <option value = "KC002">3공정</option>
 								    </select>     
 				                </form>
 				        </div>    
@@ -351,7 +351,6 @@
      <script src="resources/js/scripts.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/chart-gauge.js"></script>
-     <script src="resources/js/chart-line-cycletime.js"></script>
      <script src="resources/js/chart-bar-leadtime.js"></script>
      <script src="resources/js/chart-bar-produce.js"></script>
      <script src="resources/js/chart-bar-produce2.js"></script>
@@ -362,12 +361,34 @@
      <script src="resources/js/datatables-simple-demo.js"></script>
      <script>
      	
-     	fn_chart();
-     	fn_chart1(); 
-     	fn_start();
-		fn_chart3();
-		fn_chart4();
-		fn_chart5();
+     	<c:if test="${not empty process_gauge}">
+     		var process_gauge_val = parseFloat(${process_gauge.process_gauge});
+     		gaugeChart(process_gauge_val);
+ 		</c:if>
+ 		
+ 		<c:if test="${not empty process_rate}">
+ 		<c:forEach var = "proc" items ="${process_rate}">
+ 			var process_rate_val = [parseInt(${proc.goodprod_rate}),parseInt(${proc.badprod_rate})];
+ 			pieChart(process_rate_val);
+ 		</c:forEach>
+ 		</c:if>
+		
+ 		<%--ProcessController에서 재전송 받은 procid 사용--%>
+     	<c:if test="${not empty procid}">
+     		fn_start("${procid}");
+ 		</c:if>
+     	
+ 		<c:if test="${not empty procid}">
+ 			fn_chart3("${procid}");
+		</c:if>
+ 		
+		<c:if test="${not empty procid}">
+			fn_chart4("${procid}");
+		</c:if>
+		
+		<c:if test="${not empty procid}">
+			fn_chart5("${procid}");
+		</c:if>
 		
 		</script>
   </body>

@@ -52,6 +52,12 @@ Controller 집중적으로 보기
 
 String 으로 받은 객체는 for:each 로 반복할 수 없다.
 
+// c:if = "${not empty vals}"  vals 값이 비어있지 않을때만 실행 
+<c:if test="${not empty process_gauge}">
+     		var process_gauge_val = parseFloat(${process_gauge.process_gauge});
+     		gaugeChart(process_gauge_val);
+ 		</c:if>
+
 <통합>
 1. web.xml 주석부분으로 수정
 2. MvcConfig 주석 해제

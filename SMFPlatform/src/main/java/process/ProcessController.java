@@ -29,6 +29,7 @@ public class ProcessController {
 	public ProcessController(ProcessDao processDao) {
 		this.processDao = processDao;
 	}
+	
 	/*
 	@GetMapping("/process") // 주소창에 /process 입력시 실행
     public String single_value(Model model) {
@@ -42,11 +43,13 @@ public class ProcessController {
 		model.addAttribute("issueList", issueList);
 		return "test3.jsp";
 	}*/
-	
 		@GetMapping("/process") // 주소창에 /process 입력시 실행
 	    public String single_value(Model model,@RequestParam("procid") String procid) {
 			System.out.println("[ProcessController] /process : procid=" + procid);
-
+			
+			// test3에 procid를 저장하기 위해 재전송
+			model.addAttribute("procid", procid);
+			
 			String prodName = processDao.selectProdName(procid);
 			model.addAttribute("prodName", prodName);
 			System.out.println("[ProcessController] /process : prodName=" + prodName);
@@ -61,9 +64,23 @@ public class ProcessController {
 			String issueCount = processDao.selectIssue_count(procid);
 			model.addAttribute("issueCount", issueCount);
 			
-			List<ProcessBean> issueList = processDao.selectIssueAll();
-			System.out.println("issueList" + issueList);
-			model.addAttribute("issueList", issueList);
+			List<ProcessBean> issueList = processDao.selectIssueAll(procid);
+			if(issueList != null) {
+				model.addAttribute("issueList", issueList);
+				System.out.println("issueList" + issueList);
+			}
+			
+			List<ProcessBean> process_gauge = processDao.selectGauge(procid);
+			if(process_gauge != null) {
+				model.addAttribute("process_gauge", process_gauge.get(0));
+				System.out.println("ProcessController.single_value(): /process : process_gauge=" + process_gauge.get(0).getProcess_gauge());
+			}
+			List<ProcessBean> process_rate = processDao.select_rate(procid);
+			if(process_rate != null) {
+				model.addAttribute("process_rate", process_rate);
+				System.out.println("process_rate" + process_rate);
+			}
+		
 			return "test3.jsp";
 		}
 		
@@ -94,18 +111,24 @@ public class ProcessController {
 			PrintWriter writer = response.getWriter();
 			
 			// DB에 저장된 값을 process_gauge 변수에 저장
-			String process_gauge = processDao.selectGauge();
+			List<ProcessBean> process_gauge = processDao.selectGauge(procid);
 			System.out.println("Gauge Chart : " + process_gauge);
 			// JSON 배열 선언
 			JSONArray chart = new JSONArray();
 			// xvals에 DB에서 받아온 변수값 저장
+			for(ProcessBean p : process_gauge) {
+				chart.add(p.getProcess_gauge());
+			}
+			/*
 			String xvals = process_gauge;
 			chart.add(xvals);
-			
-			String jsonInfo = chart.toJSONString();
-			System.out.println(jsonInfo);
-			writer.print(jsonInfo);
-		}*/
+			*/
+			//String jsonInfo = chart.toJSONString();
+			//System.out.println(jsonInfo);
+			//writer.print(jsonInfo);
+		//}
+		
+		/*
 		@PostMapping("/process") 
 		public void doChart_gauge(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 			System.out.println("[GaugeChart]");
@@ -125,9 +148,9 @@ public class ProcessController {
 			String jsonInfo = chart.toJSONString();
 			System.out.println(jsonInfo);
 			writer.print(jsonInfo);
-		}
+		}*/
 		//---------------------------------------------------------------------------------
-		
+		/*
 		@PostMapping("/process1") // 주소창에 /process 입력시 실행
 		public void doChart_rate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 			System.out.println("[PieChart]");
@@ -137,7 +160,7 @@ public class ProcessController {
 			
 			// DB에 저장된 값을 process_gauge 변수에 저장
 			// List<ProcessBean>process = processDao.select_rate();
-			List<ProcessBean> process = processDao.select_rate();
+			List<ProcessBean> process = processDao.select_rate(id);
 			System.out.println("Pie Chart : " + process);
 			// JSON 배열 선언
 			JSONArray chart = new JSONArray();
@@ -151,20 +174,20 @@ public class ProcessController {
 			String jsonInfo = chart.toJSONString();
 			System.out.println(jsonInfo);
 			writer.print(jsonInfo);
-		}
+		}*/
 		//---------------------------------------------------------------------------------
 		
 		@PostMapping("/process2")
-		public void doChart_time(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-			System.out.println("[timechart]");
+		public void doChart_time(HttpServletRequest request, HttpServletResponse response, @RequestParam("procid") String procid) throws ServletException, IOException{
+			System.out.println("[timechart/procid] : " + procid);
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			
-			String process_leadtime = processDao.selectleadtime();
+			String process_leadtime = processDao.selectleadtime(procid);
 			System.out.println("Leadtime : " + process_leadtime);
 			
-			List<ProcessBean>process_cycletime = processDao.select_cycletime();
+			List<ProcessBean>process_cycletime = processDao.select_cycletime(procid);
 			int count = processDao.count(); 
 			System.out.println("Cycletime : " + count);
 			
@@ -175,24 +198,25 @@ public class ProcessController {
 				chart.add(p.getCycletime());
 			}
 			
+			String jsonInfo = chart.toJSONString();
+			System.out.println(jsonInfo);
+			writer.print(jsonInfo);
+			
 			/*
 			JSONArray chart = new JSONArray();
 			chart.add(process_leadtime);
 			chart.add(process_cycletime);
 			*/
-			String jsonInfo = chart.toJSONString();
-			System.out.println(jsonInfo);
-			writer.print(jsonInfo);
 		}
 		//---------------------------------------------------------------------------------
 		@PostMapping("/process3")
-		public void doChart_material(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		public void doChart_material(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
 			System.out.println("[timechart]");
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			
-			List<ProcessBean>process_material = processDao.select_material();
+			List<ProcessBean>process_material = processDao.select_material(procid);
 			System.out.println("Material : " + process_material);
 			JSONArray chart = new JSONArray();
 			for(ProcessBean p : process_material) {
@@ -207,13 +231,13 @@ public class ProcessController {
 		}
 		//---------------------------------------------------------------------------------
 		@PostMapping("/process4")
-		public void doChart_material2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		public void doChart_material2(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
 			System.out.println("[timechart]");
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			
-			List<ProcessBean>process_material = processDao.select_material();
+			List<ProcessBean>process_material = processDao.select_material(procid);
 			System.out.println("Material : " + process_material);
 			JSONArray chart = new JSONArray();
 			for(ProcessBean p : process_material) {
@@ -229,13 +253,13 @@ public class ProcessController {
 		//---------------------------------------------------------------------------------
 		
 		@PostMapping("/process5")
-		public void doChart_material3(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		public void doChart_material3(HttpServletRequest request, HttpServletResponse response,@RequestParam("procid")String procid) throws ServletException, IOException{
 			System.out.println("[timechart]");
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			
-			List<ProcessBean>process_material = processDao.select_material();
+			List<ProcessBean>process_material = processDao.select_material(procid);
 			System.out.println("Material : " + process_material);
 			JSONArray chart = new JSONArray();
 			for(ProcessBean p : process_material) {

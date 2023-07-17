@@ -17,7 +17,7 @@ public class ProcessDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		System.out.println("[ProcessDao 실행]");
 	}
-	
+	// 제품명
 	public String selectProdName(String id) {
 		String prodName = jdbcTemplate.queryForObject(
 				"SELECT p.prodName\r\n"
@@ -26,15 +26,17 @@ public class ProcessDao {
 				+ "    WHERE p.prodNO = ?", String.class, id);
 		return prodName;
 	}
-	
+	// 양품생산수량
 	public String selectGood_prod(String id) {
-		System.out.println("[ProcessDao(if)]procid : " + id);
 		if(id.equals("KBD001")) { // 매개변수와 비교시에는 .equals() 사용
 			id = "PKB01";
-			System.out.println("[IF문 내부 id] : " + id);
 		}
-	
-		System.out.println("[ProcessDao]procid : " + id);
+		else if (id.equals("KBD003")) {
+			id = "PKB02";
+		}
+		else if (id.equals("KC002")) {
+			id = "PKC01";
+		}
 		String goodProd = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) AS good_count\r\n"
 				+ "    FROM result_prod\r\n"
@@ -47,6 +49,12 @@ public class ProcessDao {
 		if(id.equals("KBD001")) {
 			id = "PKB01";
 		}
+		else if(id.equals("KBD003")){
+			id = "PKB02";
+		}
+		else if(id.equals("KC002")) {
+			id = "PKC01";
+		}
 		String badProd = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) AS good_count\r\n"
 				+ "    FROM result_prod\r\n"
@@ -58,6 +66,12 @@ public class ProcessDao {
 	public String selectIssue_count(String id) {
 		if(id.equals("KBD001")) {
 			id = "KBPL01";
+		}
+		else if(id.equals("KBD003")) {
+			id = "KBPL02";
+		}
+		else if(id.equals("KC002")) {
+			id = "KCPL01";
 		}
 		String issueCount = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) AS issue_count\r\n"
@@ -119,8 +133,19 @@ public class ProcessDao {
 	return results;
 	}*/
 	// 이슈 내용 가져오기
-	public List<ProcessBean> selectIssueAll() {
-		List<ProcessBean> results = jdbcTemplate.query("select * from issues",
+	public List<ProcessBean> selectIssueAll(String id) {
+		if("KBD001".equals(id)) {
+			id = "KBPL01";
+		}
+		else if("KBD003".equals(id)) {
+			id = "KBPL02";
+		}
+		else if("KC002".equals(id)) {
+			id = "KCPL01";
+		}
+		List<ProcessBean> results = jdbcTemplate.query("SELECT issueNo, issueInfo, timestamp\r\n"
+				+ "    FROM process_issue\r\n"
+				+ "    WHERE planID = ?",
 				new RowMapper<ProcessBean>() {
 					@Override
 					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -130,21 +155,23 @@ public class ProcessDao {
 								process.setTimeStamp(rs.getString("timestamp"));
 						return process;				
 					}
-			});
+			}, id);
 	return results;
 	}
-	
+	/*
 	// 공정 진행률(게이지 차트) 1건
 	public String selectGauge() {
 		String process_gauge = jdbcTemplate.queryForObject(
 				"SELECT percent FROM process_percent", String.class);
 		return process_gauge;
-	}
+	}*/
+	
 	// 공정 진행률(게이지 차트) 1건
 	/*
 	public String selectGauge(String id) {
-		if(id == "KBD001") {
+		if("KBD001".equals(id)) {
 			id = "KBPL01";
+			System.out.println("SelectGauge : " + id);
 		}
 		String process_gauge = jdbcTemplate.queryForObject(
 				"SELECT TRUNC(A.Qty/B.prodQty * 100,2) AS 공정진행률\r\n"
@@ -160,6 +187,73 @@ public class ProcessDao {
 		return process_gauge;
 	}*/
 	
+	public List<ProcessBean> selectGauge(String id) {
+		if("KBD001".equals(id)) {
+			id = "KBPL01";
+		}
+		else if ("KBD003".equals(id)) {
+			id = "KBPL02";
+		}
+		else if ("KC002".equals(id)) {
+			id = "KCPL01";
+		}
+		List<ProcessBean> process_gauge = jdbcTemplate.query(
+				"SELECT TRUNC(A.Qty/B.prodQty * 100,2) AS process\r\n"
+				+ "    FROM (SELECT COUNT(*) AS Qty\r\n"
+				+ "        FROM result_prod R, process P, process_plan PP \r\n"
+				+ "        WHERE R.processID = P.processID \r\n"
+				+ "        AND P.planID = PP.planID\r\n"
+				+ "        AND R.status = 0\r\n"
+				+ "        AND PP.planID = ?) A,\r\n"
+				+ "        (SELECT prodQty \r\n"
+				+ "        FROM process_plan\r\n"
+				+ "        WHERE planID = ?)B", 
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProcessBean process = new ProcessBean();
+								process.setProcess_gauge(rs.getString("process"));
+						return process;				
+					}
+			},id,id);
+	return process_gauge;
+	}
+	public List<ProcessBean> select_rate(String id) {
+		if("KBD001".equals(id)) {
+			id = "PKB01";
+		}
+		else if ("KBD003".equals(id)) {
+			id = "PKB02";
+		}
+		else if ("KC002".equals(id)) {
+			id = "PKC01";
+		}
+		List<ProcessBean> process_gauge = jdbcTemplate.query(
+				"SELECT TRUNC(A.Qty / C.t_Qty * 100) AS goodprod_rate,\r\n"
+				+ "    TRUNC(B.Qty / C.t_Qty * 100) AS badprod_rate \r\n"
+				+ "    FROM (SELECT COUNT(*) AS Qty\r\n"
+				+ "        FROM result_prod\r\n"
+				+ "        WHERE status = 0 \r\n"
+				+ "        AND processID = ?) A,\r\n"
+				+ "        (SELECT COUNT(*) AS Qty\r\n"
+				+ "        FROM result_prod\r\n"
+				+ "        WHERE status = 1 \r\n"
+				+ "        AND processID = ?) B,\r\n"
+				+ "        (SELECT COUNT(*) AS t_Qty\r\n"
+				+ "        FROM result_prod\r\n"
+				+ "        WHERE processID =?)C", 
+				new RowMapper<ProcessBean>() {
+					@Override
+					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ProcessBean process = new ProcessBean();
+								process.setGoodprod_rate(rs.getString("goodprod_rate"));
+								process.setBadprod_rate(rs.getString("badprod_rate"));
+						return process;				
+					}
+			},id,id,id);
+	return process_gauge;
+	}
+	/*
 	//양품률/불량률
 	public List<ProcessBean> select_rate() {
 		List<ProcessBean> results = jdbcTemplate.query("SELECT * FROM prod_rate",
@@ -205,9 +299,20 @@ return results;
 	return results;
 	}*/
 	
-	public String selectleadtime() {
+	public String selectleadtime(String id) {
+		if("KBD001".equals(id)) {
+			id = "PKB01";
+		}
+		else if("KBD003".equals(id)) {
+			id = "PKB02";
+		}
+		else if("KC002".equals(id)) {
+			id = "PKC01";
+		}
 		String process_leadtime = jdbcTemplate.queryForObject(
-				"select * from leadtime", String.class);
+				"SELECT leadtime\r\n"
+				+ "    FROM process\r\n"
+				+ "    WHERE processID = ?", String.class,id);
 		return process_leadtime;
 	}
 	/*
@@ -217,8 +322,19 @@ return results;
 		return process_cycletime;
 	}
 	*/
-	public List<ProcessBean> select_cycletime() {
-		List<ProcessBean> results = jdbcTemplate.query("select * from cycletime_1",
+	public List<ProcessBean> select_cycletime(String id) {
+		if("KBD001".equals(id)) {
+			id = "PKB01";
+		}
+		else if("KBD003".equals(id)) {
+			id = "PKB02";
+		}
+		else if("KC002".equals(id)) {
+			id = "PKC01";
+		}
+		List<ProcessBean> results = jdbcTemplate.query("SELECT cycletime \r\n"
+				+ "    FROM result_prod\r\n"
+				+ "    WHERE processID = ?",
 				new RowMapper<ProcessBean>() {
 					@Override
 					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -226,12 +342,17 @@ return results;
 						process.setCycletime(rs.getString("cycletime"));
 						return process;				
 					}
-			});
+			},id);
 	return results;
 	}
 	
-	public List<ProcessBean> select_material() {
-		List<ProcessBean> results = jdbcTemplate.query("select * from result_material",
+	public List<ProcessBean> select_material(String id) {
+		List<ProcessBean> results = jdbcTemplate.query("SELECT C.MATERNAME, (A.MATERQTY*B.PRODQTY) QTY, C.UNIT \r\n"
+				+ "        FROM bom A, process_plan B, material C \r\n"
+				+ "        WHERE A.MATERNO = C.MATERNO \r\n"
+				+ "        AND A.PRODNO = B.PRODNO \r\n"
+				+ "        AND A.PRODNO = ?"
+				+ "		   ORDER BY QTY",
 				new RowMapper<ProcessBean>() {
 					@Override
 					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -241,7 +362,7 @@ return results;
 						process.setMaterialqty(rs.getString("QTY"));
 						return process;				
 					}
-			});
+			},id);
 	return results;
 	}
 	

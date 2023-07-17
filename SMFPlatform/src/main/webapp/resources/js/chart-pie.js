@@ -4,6 +4,7 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Pie Chart Example
 function pieChart(vals){
+	//alert("pieChart" + vals);
 	var ctx = document.getElementById("myPieChart");
 	var myPieChart = new Chart(ctx, {
 	  height : 300,
@@ -18,6 +19,7 @@ function pieChart(vals){
 	});
 }
 //-------------------------------------------------------------------
+/*
 function fn_chart1(_procid) {
 	
 	$.ajax({
@@ -38,4 +40,4 @@ function fn_chart1(_procid) {
   			// alert("수신완료");
 		}
 	});	 
-}
+}*/

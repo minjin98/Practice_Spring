@@ -2,6 +2,7 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 function gaugeChart(vals){
+	//alert('gaugeChart:' + vals);
 	var dom = document.getElementById('myGaugeChart');  
 	var myChart = echarts.init(dom, null, {
 	    width: 330,
@@ -74,6 +75,7 @@ function gaugeChart(vals){
 	window.addEventListener('resize', myChart.resize);
 }
 //-------------------------------------------------------------------
+/* 사용 x
 function fn_chart(_procid) {
 	
 	$.ajax({
@@ -92,4 +94,4 @@ function fn_chart(_procid) {
   			// alert("수신완료");
 		}
 	});	 
-}
+}*/

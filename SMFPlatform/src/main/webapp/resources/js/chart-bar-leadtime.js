@@ -104,15 +104,16 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 }
 
 //-------------------------------------------------------------------
-function fn_chart2() {
+function fn_chart2(_procid) {
 	
 	$.ajax({
 		type:"post",
 		async:false,  
 		url:"http://localhost:8584/SMFPlatform/process2",
+		data : { procid : _procid },
 		success:function (data,textStatus) {
 			var jsonVals = JSON.parse(data);
-			// alert(jsonVals); 알림창 뜨기(넘어오는 값 확인할 때 좋을듯)
+			// alert(jsonVals); //알림창 뜨기(넘어오는 값 확인할 때 좋을듯)
 			barChart(jsonVals);
 		},
 		error:function(data,textStatus){
@@ -127,11 +128,13 @@ function fn_chart2() {
 
 //-------------------------------------------------------------------
 var autoChart = null;
-function fn_start(){
+function fn_start(procid) {
+	//alert("fn_start: " + procid);
+	
 	// 처음 1호출
-	fn_chart2();
+	fn_chart2(procid);
 	// 100초에 한번씩 fn_chart2 호출
 	// fn_chart2는 100개의 데이터를 가지고 있기 때문에
 	// 1초에 1개의 데이터를 출력하기 위해 100초가 필요
-	autoChart = setInterval(fn_chart2, 100000);
+	autoChart = setInterval(fn_chart2, 100000, procid);
 }
