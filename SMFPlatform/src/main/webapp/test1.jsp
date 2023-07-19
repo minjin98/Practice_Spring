@@ -1,381 +1,131 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo, java.util.List, process.ProcessBean" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>공정진행</title>
-        <link href="resources/css/styles.css" rel="stylesheet" />
-        <link href="resources/css/customstyle.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-        <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
-    </head>
-     <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 
-        <script>
-        	var _proc_id = 'KBD001';
-        	
-	        $(document).ready(function() {
-		        $("#procid").change(function() {
-		        	var procid = $("#procid").val();
-		  			alert(procid);
-		  			var formProc = $("#procForm");
-		  			formProc.submit();
-		        });
-			});
-        </script>--%>
-    <body class="sb-nav-fixed">
-        <!-- Top Nav Area -->
-        <script src="resources/js/kor_clock.js"></script>
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="main">Platform Name</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Clock -->
-            <div class="navbar-clock justify-content-end align-items-md-end text-end" id="navbar-clock">
-		        <div id="date" class="date"></div>
-		        <div id="time" class="time"></div>
-            </div>
-            <!-- Navbar-->
-            <ul class="navbar-nav justify-content-end align-items-md-end">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <!-- contents for admin -->
-                        < <c:if test="${sessionScope.authInfo.getAdmin()}">
-	                        <li><a class="dropdown-item" href="manage">Manage Settings</a></li>
-	                        <li><hr class="dropdown-divider" /></li>
-                        </c:if>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <!-- Side and Main Area-->
-        <!-- 사이드바 + 메인 -->
-        <div id="layoutSidenav">
-            <!-- Side Nav Area-->
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="plan">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                계획관리
-                            </a>
-                            <a class="nav-link" href="inventory">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                재고관리
-                            </a>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                생산관리
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link" href="logout">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                보고서관리
-                            </a>
-                            <!-- Menu For Test-->
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        ${sessionScope.authInfo.getName()}
-                    </div>
-                </nav>
-            </div>
-            <!-- Inner Contents Area(main) -->
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                    <div class = "row">
-                    	<div class="col-md-4">
-                        	<h1 class="mt-4">공정결과</h1>
-                        </div>
-                        <div class="col-md-4">
-                        	<h1 class="mt-4"></h1>
-                        </div>
-                        <div class="col-md-4">
-                 			 	<form id="procForm" action="${contextPath}/process" method="get">
-				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
-				                		<option>공정선택</option> 
-				                		<option value = "KBD001">1공정</option>
-								        <option value = "KBD002">2공정</option>
-								        <option value = "KBC001">3공정</option>
-								    </select>     
-				                </form>
-				        </div>    
-                        </div>
-                    </div>
-                      <div class="row" style="width:100%; padding-left: 10px;">
-                        <div class="col-md-3">
-                            <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
-                                <header>
-                                    <h4>
-                                        <span style = "font-size: 20px;">제품명</span>
-                                    </h4>
-                                </header>
-                                   
-                                <div class = "body" style="height: 50px; min-height: 50px;" id="total">
-                                    <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
-                                    padding-top: 12.5px; padding-bottom: 12.5px;">
-                                        <ul class= "multi_val">
-                                            <ul style ="text-align : center; line-height : 25px; width : 100%;" class ="vertical multi-val-el">
-                                               <span class="multi-val-label"></span> 
-                                               <span class="multi-val-value multi-val-value-0">
-                                                    <span class="multi_value_text" style ="color:black;font-size:30px;">
-                                                    <c:forEach var="prod" items="${single}" >
-                                                    	<span>${prod.prodName}</span>
-													</c:forEach>
-                                                    </span>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="col-md-3">
-                            <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
-                                <header>
-                                    <h4>
-                                        <span style = "font-size: 20px;">양품생산수량</span>
-                                    </h4>
-                                </header>
-                                <div class = "body" style="height: 50px; min-height: 50px;" id="total">
-                                    <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
-                                    padding-top: 12.5px; padding-bottom: 12.5px;">
-                                        <ul class= "multi_val">
-                                            <ul style ="text-align : center; line-height : 25px; width : 100%;" class ="vertical multi-val-el">
-                                               <span class="multi-val-label"></span> 
-                                               <span class="multi-val-value multi-val-value-0">
-                                                    <span class="multi_value_text" style ="color:#0059ff;font-size:inherit;">
-                                                    <c:forEach var="prod" items="${single}" >
-                                                    	<span>${prod.good_count}</span>
-													</c:forEach>
-                                                    </span>
-                                                    <span class = "multi_value_unit">EA</span>
-                                               </span>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="col-md-3">
-                            <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
-                                <header>
-                                    <h4>
-                                        <span style = "font-size: 20px;">불량생산수량</span>
-                                    </h4>
-                                </header>
-                                <div class = "body" style="height: 50px; min-height: 50px;" id="total">
-                                    <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
-                                    padding-top: 12.5px; padding-bottom: 12.5px;">
-                                        <ul class= "multi_val">
-                                            <ul style ="text-align : center; line-height : 25px; width : 100%;" class ="vertical multi-val-el">
-                                               <span class="multi-val-label"></span> 
-                                               <span class="multi-val-value multi-val-value-0">
-                                                    <span class="multi_value_text" style ="color:red;font-size:inherit;">
-                                                     <c:forEach var="prod" items="${single}" >
-                                                    	<span>${prod.good_count}</span>
-                                                    </c:forEach>
-                                                    </span>
-                                                    <span class = "multi_value_unit">EA</span>
-                                               </span>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="col-md-3" >
-                            <section class ="widget header"; style="width: 100%; border: 4px solid rgb(241, 237, 225) " >
-                                <header>
-                                    <h4>
-                                        <span style = "font-size: 20px;">이슈 발생 건수</span>
-                                    </h4>
-                                </header>
-                                <div class = "body" style="height: 50px; min-height: 50px;" id="total">
-                                    <div class = "chart_content" id = "total1" style = "height: inherit; font-size : 35px;
-                                    padding-top: 12.5px; padding-bottom: 12.5px;">
-                                        <ul class= "multi_val">
-                                            <ul style ="text-align : center; line-height : 25px; width : 100%;" class ="vertical multi-val-el">
-                                               <span class="multi-val-label"></span> 
-                                               <span class="multi-val-value multi-val-value-0">
-                                                    <span class="multi_value_text" style ="color:orange;font-size:inherit;">
-                                                      <c:forEach var="prod" items="${single}" >
-                                                    	<span>${prod.issue_count}</span>
-                                                    </c:forEach>
-                                                    </span>
-                                                    <span class = "multi_value_unit">건</span>
-                                               </span>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                      
-                    <div class="row" style ="width:100%">
-                    <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
-                            <div class="card mb-4" style = "width :100%">
-                            <!-- <div class="card mb-4"> -->
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        가동률
-                                    </div>
-                                    <div class="card-body"><canvas id="myGaugeChart" width="100%" ></canvas></div>
-                            </div>
-                   	 </div>
-                        <div class="col-xl-6" style = "width : 25%; heigth : 300px; padding:20px">
-                            <div class="card mb-4" style = "width : 100%">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        수율
-                                    </div>
-                                    <div class="card-body">
-                                    	<canvas id="myPieChart" width="100%" height ="95"></canvas>
-                                    </div>
-                            </div>
-                   	 </div>
-                   	 <!-- 움직이는 차트 만들기 -->
-                   	  <div class="col-xl-6" style = "width : 18%; heigth : 200px; padding-top: 20px; padding-left:20px">
-                            <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        소비 재고 차트(大)
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart2" width="100%" height="70"></canvas></div>
-                            </div>
-                   	 </div>
-                   	 <div class="col-xl-6" style = "width : 23%; heigth : 200px; padding-top: 20px; padding-left:5px">
-                            <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        소비 재고 차트(小)
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart3" width="100%" height="70"></canvas></div>
-                            </div>
-                   	 </div>
-                   	 <div class="col-xl-6" style = "width : 9%; heigth : 200px; padding-top: 20px; padding-left:5px">
-                            <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        공통자재
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart4" width="100%" height="70"></canvas></div>
-                            </div>
-                   	 </div>
-                 
-                 <div class = "row">
-	                 <div class="col-xl-6" style = "width : 50%">
-	                 	<div class="card mb-4">
-                        	<div class="card-header">
-                            	<i class="fas fa-chart-bar me-1"></i>
-                            	바차트
-                        	</div>
-                        <div class="card-body"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
-	                 	</div>
-                    </div>        
-             	 	<div class="col-xl-6" style ="padding-left:35px">
-                    	<div class="card mb-4">
-	                        <div class="card-header">
-	                        	<i class="fas fa-table me-1"></i>
-	                        	데이터테이블
-	                        </div>
-	                        <div class="card-body">
-	                        	<table id="datatablesSimple">
-	                            	<thead>
-		                                <tr>
-		                                    <th>이슈이름</th>
-		                                    <th>이슈내용</th>
-		                                    <th>발생일자</th>
-		                                </tr>
-	                            	</thead>
-                                    <tbody>
-                                       <c:forEach var="issue" items="${issueList}" >
-	                                        <tr>
-	                                           <td>${issue.issueNo}</td>
-	                                            <td>${issue.issueInfo}</td>
-    	                                        <td>${issue.timeStamp}</td>
-	                                           
-	                                        </tr>
-										</c:forEach>
-                                    </tbody>
-                                      	<tfoot>
-                                        <tr>
-                                            <th>이슈</th>
-                                            <th>이슈내용</th>
-                                            <th>발생일자</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                       		</div>
-                	 	</div>
-               		</div>
-               </div>
-             </main>
-         </div>
-     </div>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-     <script src="resources/js/scripts.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-     <script src="resources/js/chart-gauge.js"></script>
-     <script src="resources/js/chart-line-cycletime.js"></script>
-     <script src="resources/js/chart-bar-leadtime.js"></script>
-     <script src="resources/js/chart-bar-produce.js"></script>
-     <script src="resources/js/chart-bar-produce2.js"></script>
-     <script src="resources/js/chart-bar-produce3.js"></script>
-     <script src="resources/js/chart-pie.js"></script>
-     <script src="resources/js/chart-datatables.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-     <script src="resources/js/datatables-simple-demo.js"></script>
-     <script>
-     	fn_chart();
-     	fn_chart1(); 
-     	fn_start();
-		fn_chart3();
-		fn_chart4();
-		fn_chart5();
-		</script>
-  </body>
+<head>
+    <title id="Description">Data Rows with Details in jqxDataTable</title>
+    <meta name="description" content="This sample demonstrates how we can display Rows with Details in the jQWidgets DataTable widget.">
+    <link rel="stylesheet" href="/jqwidgets/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
+    <script type="text/javascript" src="/jqwidgets/scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/jqwidgets/scripts/demos.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxdata.js"></script> 
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxdatatable.js"></script>
+    <script type="text/javascript" src="/jqwidgets/jqwidgets/jqxtabs.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = new Array();
+            var firstNames = ["KBM", "Andrew", "Janet", "Margaret", "Steven", "Michael", "Robert", "Laura", "Anne"];
+            var lastNames = ["Davolio", "Fuller", "Leverling", "Peacock", "Buchanan", "Suyama", "King", "Callahan", "Dodsworth"];
+            var titles = ["Sales Representative", "Vice President, Sales", "Sales Representative", "Sales Representative", "Sales Manager", "Sales Representative", "Sales Representative", "Inside Sales Coordinator", "Sales Representative"];
+            var titleofcourtesy = ["Ms.", "Dr.", "Ms.", "Mrs.", "Mr.", "Mr.", "Mr.", "Ms.", "Ms."];
+            var birthdate = ["08-Dec-48", "19-Feb-52", "30-Aug-63", "19-Sep-37", "04-Mar-55", "02-Jul-63", "29-May-60", "09-Jan-58", "27-Jan-66"];
+            var hiredate = ["01-May-92", "14-Aug-92", "01-Apr-92", "03-May-93", "17-Oct-93", "17-Oct-93", "02-Jan-94", "05-Mar-94", "15-Nov-94"];
+            var address = ["507 - 20th Ave. E. Apt. 2A", "908 W. Capital Way", "722 Moss Bay Blvd.", "4110 Old Redmond Rd.", "14 Garrett Hill", "Coventry House", "Miner Rd.", "Edgeham Hollow", "Winchester Way", "4726 - 11th Ave. N.E.", "7 Houndstooth Rd."];
+            var city = ["Seattle", "Tacoma", "Kirkland", "Redmond", "London", "London", "London", "Seattle", "London"];
+            var postalcode = ["98122", "98401", "98033", "98052", "SW1 8JR", "EC2 7JR", "RG1 9SP", "98105", "WG2 7LT"];
+            var country = ["USA", "USA", "USA", "USA", "UK", "UK", "UK", "USA", "UK"];
+            var homephone = ["(206) 555-9857", "(206) 555-9482", "(206) 555-3412", "(206) 555-8122", "(71) 555-4848", "(71) 555-7773", "(71) 555-5598", "(206) 555-1189", "(71) 555-4444"];
+           
+            var k = 0;
+            for (var i = 0; i < firstNames.length; i++) {
+                var row = {};
+                row["firstname"] = firstNames[k];
+                row["lastname"] = lastNames[k];
+                row["title"] = titles[k];
+                row["titleofcourtesy"] = titleofcourtesy[k];
+                row["birthdate"] = birthdate[k];
+                row["hiredate"] = hiredate[k];
+                row["address"] = address[k];
+                row["city"] = city[k];
+                row["postalcode"] = postalcode[k];
+                row["country"] = country[k];
+                row["homephone"] = homephone[k];
+                data[i] = row;
+                k++;
+            }
+            var source =
+            {
+                localData: data,
+                dataType: "array"
+            };
+            // initialize the row details.
+            var initRowDetails = function (id, row, element, rowinfo) {
+                var tabsdiv = null;
+                var information = null;
+                // update the details height.
+                rowinfo.detailsHeight = 200;
+                element.append($("<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'>Title</li></ul><div class='information'></div></div>"));
+                tabsdiv = $(element.children()[0]);
+             
+                if (tabsdiv != null) {
+                    information = tabsdiv.find('.information');
+                    var title = tabsdiv.find('.title');
+                    title.text(row.firstname);
+                    var container = $('<div style="margin: 5px;"></div>')
+                    container.appendTo($(information));
+                    var photocolumn = $('<div style="float: left; width: 15%;"></div>');
+                    var leftcolumn = $('<div style="float: left; width: 45%;"></div>');
+                    var rightcolumn = $('<div style="float: left; width: 40%;"></div>');
+                    container.append(photocolumn);
+                    container.append(leftcolumn);
+                    container.append(rightcolumn);
+                    var photo = $("<div class='jqx-rc-all' style='margin: 10px;'><b>Photo:</b></div>");
+                    var image = $("<div style='margin-top: 10px;'></div>");
+                    var imgurl = '/jqwidgets/images/' + row.firstname.toLowerCase() + '.png';
+                    var img = $('<img height="60" src="' + imgurl + '"/>');
+                    image.append(img);
+                    image.appendTo(photo);
+                    photocolumn.append(photo);
+                    var firstname = "<div style='margin: 10px;'><b>First Name:</b> " + row.firstname + "</div>";
+                    var lastname = "<div style='margin: 10px;'><b>Last Name:</b> " + row.lastname + "</div>";
+                    var title = "<div style='margin: 10px;'><b>Title:</b> " + row.title + "</div>";
+                    var address = "<div style='margin: 10px;'><b>Address:</b> " + row.address + "</div>";
+                    $(leftcolumn).append(firstname);
+                    $(leftcolumn).append(lastname);
+                    $(leftcolumn).append(title);
+                    $(leftcolumn).append(address);
+                    var postalcode = "<div style='margin: 10px;'><b>Postal Code:</b> " + row.postalcode + "</div>";
+                    var city = "<div style='margin: 10px;'><b>City:</b> " + row.city + "</div>";
+                    var phone = "<div style='margin: 10px;'><b>Phone:</b> " + row.homephone + "</div>";
+                    var hiredate = "<div style='margin: 10px;'><b>Hire Date:</b> " + row.hiredate + "</div>";
+                    $(rightcolumn).append(postalcode);
+                    $(rightcolumn).append(city);
+                    $(rightcolumn).append(phone);
+                    $(rightcolumn).append(hiredate);
+                    $(tabsdiv).jqxTabs({ width: 820, height: 170 });
+                }
+            }
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#dataTable").jqxDataTable(
+            {
+                width: getWidth("dataTable"),
+                source: dataAdapter,
+                pageable: true,
+                pageSize: 3,
+                rowDetails: true,
+                sortable: true,
+                ready: function () {
+                    // expand the first details.
+                    $("#dataTable").jqxDataTable('showDetails', 0);
+                },
+                initRowDetails: initRowDetails,
+                columns: [
+                      { text: 'First Name', dataField: 'firstname', width: 200 },
+                      { text: 'Last Name', dataField: 'lastname', width: 200 },
+                      { text: 'Title', dataField: 'title', width: 200 },
+                      { text: 'City', dataField: 'city', width: 100 },
+                      { text: 'Country', dataField: 'country'}
+                ]
+            });
+        });
+    </script>
+</head>
+<body class='default'>
+      <div id="dataTable"></div>
+</body>
 </html>

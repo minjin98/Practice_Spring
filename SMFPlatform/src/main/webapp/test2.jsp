@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*,controller.process.*" %>
-<%@ page import="java.util.*,controller.process.Process" %>
+<%@ page import="java.util.*,controller.process.ProcessBean" %>
+<%@ page import="java.util.*,config.db.OracleDbConfig" %>
 <jsp:useBean id="proMgr" class="controller.process.ProcessDao" />
 
 <html>
@@ -13,31 +14,28 @@
 	<h3>회원정보</h3>
 	<table bordercolor="#0000ff" border="1">
 	<tr>
-	   <td><strong>NAME</strong></td>
-	   <td><strong>Good_count</strong></td>
-	   <td><strong>Bad_count</strong></td>
-	   <td><strong>Issue_count</strong></td>
+	   <td><strong>ProdNo</strong></td>
+	   <td><strong>StartDate</strong></td>
+	   <td><strong>EndDate</strong></td>
+	   <td><strong>Name</strong></td>
 	</tr>
 	
 	<%
-		List<Process> results = proMgr.selectAll();
-		int counter = results.size();
-		for(int i=0; i<results.size(); i++){
-			Process proBean =results.get(i);
-	%>
+		List<ProcessBean> results = proMgr.select_plan();
+				int counter = results.size();
+				for(int i=0; i<results.size(); i++){
+			ProcessBean proBean =results.get(i);
+		%>
 	<tr>
-		<td><%=proBean.getProdName()%></td>
-		<td><%=proBean.getGood_count()%></td>
-		<td><%=proBean.getBad_count()%></td>
-		<td><%=proBean.getIssue_count()%></td>
+		<td><%=proBean.getProdNo()%></td>
+		<td><%=proBean.getStartDate()%></td>
+		<td><%=proBean.getEndDate()%></td>
+		<td><%=proBean.getName()%></td>
 		
 	</tr>
-	<%
-	   }
-	%>
+	<% }%>
 	</table>
 	<br/>
 	<br/>
-	total records : <%= counter %> 
 </body>
 </html>

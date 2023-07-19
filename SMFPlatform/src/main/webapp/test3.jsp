@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="spring.auth.AuthInfo, java.util.List, process.ProcessBean" %>
+<%@ page import="spring.auth.AuthInfo, java.util.List, controller.process.ProcessBean" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -359,37 +359,5 @@
      <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
-     <script>
-     	
-     	<c:if test="${not empty process_gauge}">
-     		var process_gauge_val = parseFloat(${process_gauge.process_gauge});
-     		gaugeChart(process_gauge_val);
- 		</c:if>
- 		
- 		<c:if test="${not empty process_rate}">
- 		<c:forEach var = "proc" items ="${process_rate}">
- 			var process_rate_val = [parseInt(${proc.goodprod_rate}),parseInt(${proc.badprod_rate})];
- 			pieChart(process_rate_val);
- 		</c:forEach>
- 		</c:if>
-		
- 		<%--ProcessController에서 재전송 받은 procid 사용--%>
-     	<c:if test="${not empty procid}">
-     		fn_start("${procid}");
- 		</c:if>
-     	
- 		<c:if test="${not empty procid}">
- 			fn_chart3("${procid}");
-		</c:if>
- 		
-		<c:if test="${not empty procid}">
-			fn_chart4("${procid}");
-		</c:if>
-		
-		<c:if test="${not empty procid}">
-			fn_chart5("${procid}");
-		</c:if>
-		
-		</script>
   </body>
 </html>

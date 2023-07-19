@@ -58,6 +58,11 @@ String 으로 받은 객체는 for:each 로 반복할 수 없다.
      		gaugeChart(process_gauge_val);
  		</c:if>
 
+
+<Controller 사용법>
+1. Controller 생성
+2. ControllerConfig에 생성한 Controller 등록
+
 <통합>
 1. web.xml 주석부분으로 수정
 2. MvcConfig 주석 해제

@@ -9,6 +9,8 @@ import controller.manage.ManageController;
 import controller.plan.PReportController;
 import controller.plan.PlanController;
 import controller.process.ProcessController;
+import controller.process.ProcessDao;
+import controller.process.ProcessOrController;
 import controller.TestController;
 import controller.inventory.InvenController;
 import controller.login.LoginController;
@@ -19,6 +21,8 @@ public class ControllerConfig {
 
 	@Autowired
 	private AuthService authService;
+	@Autowired
+	private ProcessDao processDao;
 	
 	@Bean
 	public LoginController loginController() {
@@ -49,7 +53,11 @@ public class ControllerConfig {
 	
 	@Bean
 	public ProcessController processController() {
-		return new ProcessController();
+		return new ProcessController(processDao);
+	}
+	@Bean
+	public ProcessOrController processOrController() {
+		return new ProcessOrController(processDao);
 	}
 	
 	@Bean
@@ -62,7 +70,6 @@ public class ControllerConfig {
 	public TestController testController() {
 		return new TestController();
 	}
-	
 	
 	
 }

@@ -29,7 +29,7 @@ public class UserDao {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 						User user = new User(
-								rs.getLong("empno"),
+								rs.getString("empno"),
 								rs.getString("id"),
 								rs.getString("pw"),
 								rs.getString("name"),

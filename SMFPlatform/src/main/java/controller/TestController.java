@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController {
 	
 	@RequestMapping("/test")
-    public String test() {
+    public String test1() {
     	return "test/test";
     }
- 
+	/*
+	@RequestMapping("/testOR")
+    public String test2() {
+    	return "test/testOR";
+    }
+ */
 }

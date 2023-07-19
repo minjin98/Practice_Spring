@@ -30,8 +30,8 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				config.MvcConfig
-				process.OracleDbConfig  <!-- 기존 : config.OracleDbConfig -->
-				process.ControllerConfig <!-- 기존 : config.ControllerConfig -->
+				config.db.OracleDbConfig
+				config.ControllerConfig 
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

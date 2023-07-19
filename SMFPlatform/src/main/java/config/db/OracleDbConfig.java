@@ -56,7 +56,10 @@ public class OracleDbConfig{
 		authService.setuserDao(userDao());
 		return authService;
 	}
-	
+	@Bean
+	public ProcessDao processDao() {
+		return new ProcessDao(dataSource());
+	}
 	
 	
 }

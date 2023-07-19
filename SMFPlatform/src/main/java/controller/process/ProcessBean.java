@@ -1,4 +1,6 @@
-package process;
+package controller.process;
+
+import java.sql.Date;
 
 public class ProcessBean{
 
@@ -16,6 +18,13 @@ public class ProcessBean{
 	private String issueNo;
 	private String issueInfo;
 	private String timeStamp;
+	private String prodNo;
+	private Date startDate;
+	private Date endDate;
+	private String name;
+	private String lineID;
+	private String proCheck;
+
 	
 	// DEFAULT 생성자
 	public ProcessBean() {}
@@ -134,6 +143,54 @@ public class ProcessBean{
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
 	}
+
+	public String getProdNo() {
+		return prodNo;
+	}
+
+	public void setProdNo(String prodNo) {
+		this.prodNo = prodNo;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startdate) {
+		this.startDate = startdate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLineID() {
+		return lineID;
+	}
+
+	public void setLineID(String lineID) {
+		this.lineID = lineID;
+	}
+
+	public String getProCheck() {
+		return proCheck;
+	}
+
+	public void setProCheck(String proCheck) {
+		this.proCheck = proCheck;
+	}
 	
-	
+
 }
