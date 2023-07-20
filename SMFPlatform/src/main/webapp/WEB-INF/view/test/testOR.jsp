@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo, java.util.List, controller.process.*" %>
+<%@ page import="controller.process.ProcessBean" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -134,16 +136,18 @@
 	                        	<table id="datatablesSimple">
 	                            	<thead>
 		                                <tr>
-		                                    <th align="center">생산제품</th>
-		                                    <th align="center">생산계획기간</th>
-		                                    <th align="center">담당자</th>
-		                                    <th align="center">라인선택</th>
-		                                    <th align="center">진행여부</th>
+		                                	<th>번호</th>
+		                                	<th>생산제품</th>
+		                                    <th>생산계획기간</th>
+		                                    <th>담당자</th>
+		                                    <th>라인선택</th>
+		                                    <th>진행여부</th>
 		                                </tr>
 	                            	</thead>
                                     <tbody>
                                     	<c:forEach var = "order" items ="${orderlist}">
 	                                    	<tr>
+	                                    		<td>${order.num}</td>
 	                                    		<td>${order.prodNo}</td>
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
@@ -156,10 +160,15 @@
 													</select>
 												</td>
 	                                    		<td>
-	                                    			<form id ="ProcForm" action="${contextPath}/process" method="get">
-	                                    				<button type="button" class="btn btn-success" onclick=>공정</button>
-	                                    			</form>
-	                                    			<button type="button" class="btn btn-danger" onclick="location.href='test'">취소</button>
+	                                    			<button type="button" class="btn btn-success">공정</button>
+	                                    			<button type="button" class="btn btn-danger">
+	                                    			
+	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
+	                                    					a hef="" 로 Controller의 Mapping을 호출
+	                                    					호출할 때 파라미터의 값을 같이 전송
+	                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
+	                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}">삭제</a>
+	                                    			</button>
 	                                    		</td>
 	                                    	</tr>
                                     	</c:forEach>

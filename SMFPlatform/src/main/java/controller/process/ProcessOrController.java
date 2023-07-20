@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import controller.process.ProcessBean;
 import controller.process.ProcessDao;
 
@@ -33,5 +34,18 @@ private ProcessDao processDao;
 		System.out.println("orderlist 실행");
 		return "test/testOR";
 	}
+	
+	@GetMapping("/testORDelete")
+	public String deleteProcess(Model model, @RequestParam("num") Integer num) {
+		System.out.println("[ProcessOrController] deleteProcess: prodNo=" + num);
+		processDao.deleteProcess(num);
+		System.out.println("deleprocess 완료 2");
+		
+		List<ProcessBean>orderlist = processDao.select_plan();
+		model.addAttribute("orderlist", orderlist);
+		return "test/testOR";
+	}
+	
+	
 		
 }

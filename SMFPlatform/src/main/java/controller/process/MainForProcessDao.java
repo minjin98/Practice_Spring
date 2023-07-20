@@ -54,9 +54,7 @@ public class MainForProcessDao {
 		List<ProcessBean> order = processDao.select_plan();
 		System.out.println("select_plan main문에서 실행");
 		for(ProcessBean p : order) {
-			System.out.println("실행완료0");
-			System.out.println(p.getProdNo()+'/' + p.getStartDate()+'/' + p.getEndDate()+'/' + p.getName());
-			System.out.println("실행완료");
+			System.out.println(p.getNum()+'/'+ p.getProdNo()+'/' + p.getStartDate()+'/' + p.getEndDate()+'/' + p.getName());
 		}
 		
 		

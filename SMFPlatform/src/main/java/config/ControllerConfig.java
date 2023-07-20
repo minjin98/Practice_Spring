@@ -55,6 +55,7 @@ public class ControllerConfig {
 	public ProcessController processController() {
 		return new ProcessController(processDao);
 	}
+	
 	@Bean
 	public ProcessOrController processOrController() {
 		return new ProcessOrController(processDao);

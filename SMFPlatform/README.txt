@@ -63,6 +63,16 @@ String 으로 받은 객체는 for:each 로 반복할 수 없다.
 1. Controller 생성
 2. ControllerConfig에 생성한 Controller 등록
 
+<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송>
+	a hef="" 로 Controller의 Mapping을 호출
+	호출할 때 파라미터의 값을 같이 전송
+	Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
+	ex)
+		<a href="/SMFPlatform/testORDelete?prodNo=${order.prodNo}">취소</a>
+		
+Dao에 구현시 insert, delete, update 전부 jdbcTemplate.update 로 사용 (예제:S08JdbcTemplate 참고)
+query문은 select 시에만 사용
+
 <통합>
 1. web.xml 주석부분으로 수정
 2. MvcConfig 주석 해제

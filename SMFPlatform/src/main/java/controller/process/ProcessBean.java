@@ -18,6 +18,7 @@ public class ProcessBean{
 	private String issueNo;
 	private String issueInfo;
 	private String timeStamp;
+	private int num;
 	private String prodNo;
 	private Date startDate;
 	private Date endDate;
@@ -142,6 +143,15 @@ public class ProcessBean{
 
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
+	}
+
+	
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public String getProdNo() {

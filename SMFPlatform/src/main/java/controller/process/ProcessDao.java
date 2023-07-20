@@ -12,6 +12,10 @@ public class ProcessDao {
 	
 	private JdbcTemplate jdbcTemplate;
 	
+	public ProcessDao() {
+		System.out.println("[ProcessDao 실행]");
+	}
+	
 	// DB 연동
 	public ProcessDao(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -27,6 +31,7 @@ public class ProcessDao {
 				+ "    WHERE p.prodNO = ?", String.class, id);
 		return prodName;
 	}
+
 	// 양품생산수량
 	public String selectGood_prod(String id) {
 		if(id.equals("KBD001")) { // 매개변수와 비교시에는 .equals() 사용
@@ -377,19 +382,18 @@ return results;
 	}
 	
 	// 공정 명령
-	
+	// DB 데이터 호출
 	public List<ProcessBean> select_plan() {
 		System.out.println("select_plan 실행");
-		List<ProcessBean> results = jdbcTemplate.query("SELECT A.prodNO, A.startdate, A.enddate, B.name\r\n"
+		List<ProcessBean> results = jdbcTemplate.query("SELECT B.num,A.prodNO, A.startdate, A.enddate, B.name\r\n"
 				+ "    FROM process_plan A, process_order B\r\n"
 				+ "    WHERE A.planID = B.planID",
 				new RowMapper<ProcessBean>() {
 					@Override
 					public ProcessBean mapRow(ResultSet rs, int rowNum) throws SQLException {
 						ProcessBean process = new ProcessBean();
+								process.setNum(rs.getInt("num"));
 								process.setProdNo(rs.getString("prodNo"));
-								//process.setStartDate(java.sql.Date.valueOf(rs.getString("startdate")));
-								//process.setEndDate(java.sql.Date.valueOf(rs.getString("enddate")));
 								process.setStartDate(rs.getDate("startdate"));
 								process.setEndDate(rs.getDate("enddate"));
 								process.setName(rs.getString("name"));
@@ -398,6 +402,17 @@ return results;
 			});
 	return results;
 	}
+	
+	/* 
+	 * 파라미터 num에 해당하는 공정 데이터 삭제 
+	 */
+	
+	public int deleteProcess(Integer num) {
+		System.out.println("deleteProcess 실행");
+		int deleteprocess = jdbcTemplate.update("DELETE FROM process_order WHERE num = ?", num);
+		return deleteprocess;
+	}
+	
 	
 	public int count() {
 		Integer count = jdbcTemplate.queryForObject(
