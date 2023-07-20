@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>공정진행</title>
+        <title>공정명령</title>
         <link href="resources/css/styles.css" rel="stylesheet" />
         <link href="resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
@@ -22,6 +22,18 @@
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
     </head>
+    
+    <script>
+	        $(document).ready(function() {
+		        $("#procid").change(function() {
+		        	var procid = $("#procid").val();
+		  			<%--alert(procid);--%>
+		  			var formProc = $("#procForm");
+		  			formProc.submit();
+		        });
+			});
+        </script>
+    
     <body class="sb-nav-fixed">
         <!-- Top Nav Area -->
         <script src="resources/js/kor_clock.js"></script>
@@ -76,8 +88,11 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
+                                
+                                <%--<a class="nav-link" href="process">공정명령</a>
+                                    <a class="nav-link" href="report">공정결과</a> --%>
+                                    <a class="nav-link" href="testOR">공정명령</a>
+                                    <a class="nav-link" href="test">공정결과</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="logout">
@@ -152,22 +167,33 @@
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
 	                                    		<td>
-	                                    			<select class="form-select">
+	                                    		<form id="lineForm" action="${contextPath}/testORstart" method="get">
+	                                    			<select id = "lineid" name="lineid">
 													  <option selected>라인선택</option>
 													  <option value="1">1번라인</option>
 													  <option value="2">2번라인</option>
 													  <option value="3">3번라인</option>
 													</select>
+													<script>
+														$("#lineid").change(function() {
+											        		var lineid = $("#line").val();}
+															alert(lineid);
+														);
+											        		
+													</script>
+												</form>
 												</td>
 	                                    		<td>
-	                                    			<button type="button" class="btn btn-success">공정</button>
+	                                    			<button type="button" class="btn btn-success">
+	                                    				<a href="/SMFPlatform/testORstart?value=lineid"; style="text-decoration-line:none; color : white">공정</a>
+	                                    			</button>
 	                                    			<button type="button" class="btn btn-danger">
 	                                    			
 	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
 	                                    					a hef="" 로 Controller의 Mapping을 호출
 	                                    					호출할 때 파라미터의 값을 같이 전송
 	                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
-	                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}">삭제</a>
+	                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
 	                                    			</button>
 	                                    		</td>
 	                                    	</tr>
@@ -175,9 +201,12 @@
                                     </tbody>
                                       	<tfoot>
                                         <tr>
-                                            <th>이슈</th>
-                                            <th>이슈내용</th>
-                                            <th>발생일자</th>
+                                            <th>번호</th>
+		                                	<th>생산제품</th>
+		                                    <th>생산계획기간</th>
+		                                    <th>담당자</th>
+		                                    <th>라인선택</th>
+		                                    <th>진행여부</th>
                                         </tr>
                                     </tfoot>
                                 </table>

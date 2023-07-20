@@ -85,8 +85,10 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="process">공정명령</a>
-                                    <a class="nav-link" href="report">공정결과</a>
+                                    <%-- <a class="nav-link" href="process">공정명령</a>
+                                    <a class="nav-link" href="report">공정결과</a>--%>
+                                    <a class="nav-link" href="testOR">공정명령</a>
+                                    <a class="nav-link" href="test">공정결과</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="logout">

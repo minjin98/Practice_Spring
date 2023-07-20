@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo, java.util.List, controller.process.*" %>
+<%@ page import="controller.process.ProcessBean" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>공정진행</title>
+        <title>공정명령</title>
         <link href="resources/css/styles.css" rel="stylesheet" />
         <link href="resources/css/customstyle.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
@@ -125,7 +127,7 @@
                  
                  	
              	 	<div class="col-xl-6" style ="padding-left-right:35px; padding-top:30px; width:100%">
-                    	<div class="card mb-4">
+                    	<div class="card mb-4" style="height:500px">
 	                        <div class="card-header">
 	                        	<i class="fas fa-table me-1"></i>
 	                        	데이터테이블
@@ -134,16 +136,18 @@
 	                        	<table id="datatablesSimple">
 	                            	<thead>
 		                                <tr>
-		                                    <th align="center">생산제품</th>
-		                                    <th align="center">생산계획기간</th>
-		                                    <th align="center">담당자</th>
-		                                    <th align="center">라인선택</th>
-		                                    <th align="center">진행여부</th>
+		                                	<th>번호</th>
+		                                	<th>생산제품</th>
+		                                    <th>생산계획기간</th>
+		                                    <th>담당자</th>
+		                                    <th>라인선택</th>
+		                                    <th>진행여부</th>
 		                                </tr>
 	                            	</thead>
                                     <tbody>
                                     	<c:forEach var = "order" items ="${orderlist}">
 	                                    	<tr>
+	                                    		<td>${order.num}</td>
 	                                    		<td>${order.prodNo}</td>
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
@@ -156,17 +160,29 @@
 													</select>
 												</td>
 	                                    		<td>
-	                                    			<button type="button" class="btn btn-success">공정</button>
-	                                    			<button type="button" class="btn btn-danger">취소</button>
+	                                    			<button type="button" class="btn btn-success">
+	                                    				<a href="/SMFPlatform/test"; style="text-decoration-line:none; color : white">공정</a>
+	                                    			</button>
+	                                    			<button type="button" class="btn btn-danger">
+	                                    			
+	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
+	                                    					a hef="" 로 Controller의 Mapping을 호출
+	                                    					호출할 때 파라미터의 값을 같이 전송
+	                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
+	                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
+	                                    			</button>
 	                                    		</td>
 	                                    	</tr>
                                     	</c:forEach>
                                     </tbody>
                                       	<tfoot>
                                         <tr>
-                                            <th>이슈</th>
-                                            <th>이슈내용</th>
-                                            <th>발생일자</th>
+                                            <th>번호</th>
+		                                	<th>생산제품</th>
+		                                    <th>생산계획기간</th>
+		                                    <th>담당자</th>
+		                                    <th>라인선택</th>
+		                                    <th>진행여부</th>
                                         </tr>
                                     </tfoot>
                                 </table>
