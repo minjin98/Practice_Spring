@@ -413,9 +413,16 @@ return results;
 		return deleteprocess;
 	}
 	
+	// lineid 값이 null이 아닐경우에만 실행
 	public void insertLineid(String value, String prodNo) {
-		System.out.println("insertLineid 실행");
-		jdbcTemplate.update("UPDATE PROCESS_ORDER SET LINEID = ?, PROCHECK = 'Y' WHERE PRODNO = ?", value,prodNo);
+		if(value != null) {
+			System.out.println("insertLineid 실행");
+			jdbcTemplate.update("UPDATE PROCESS_ORDER SET LINEID = ?, PROCHECK = 'Y' WHERE PRODNO = ?", value,prodNo);
+		}
+		else {
+			System.out.println("value 값이 올바르지 않습니다"); 
+		}
+		
 	}
 	
 	

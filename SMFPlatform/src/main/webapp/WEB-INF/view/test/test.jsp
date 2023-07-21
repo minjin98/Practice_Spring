@@ -140,8 +140,8 @@
 				                	
 				                		<option>공정선택</option> 
 				                		<option value = "${insertProdNo}">1공정</option>
-								        <option value = "${insertProdNo}">2공정</option>
-								        <option value = "${insertProdNo}">3공정</option>
+								        <option value = "KBD003">2공정</option>
+								        <option value = "KC002">3공정</option>
 								    </select>     
 				                </form>
 				        </div>    

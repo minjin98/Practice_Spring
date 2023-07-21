@@ -51,6 +51,7 @@ private ProcessDao processDao;
 		System.out.println("[ProcessOrController] insertLine : prodNo=" + prodNo);
 		System.out.println("[ProcessOrController] insertLine : value=" + value);
 		
+		
 		String insertProdNo = prodNo;
 		processDao.insertLineid(value, prodNo);
 		model.addAttribute("insertProdNo", insertProdNo);
