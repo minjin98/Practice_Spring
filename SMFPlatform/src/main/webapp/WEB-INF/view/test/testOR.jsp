@@ -22,14 +22,29 @@
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
     </head>
-    
+    <%-- attr --%>
+    <%-- select 태그에서 선택한 값의 value 값을 <a></a> 태그에 실어서 보내기 위함 --%>
+    <%-- lineSelect는 <a> 태그의 id --%>
     <script>
 	        $(document).ready(function() {
-		        $("#procid").change(function() {
-		        	var procid = $("#procid").val();
-		  			<%--alert(procid);--%>
-		  			var formProc = $("#procForm");
-		  			formProc.submit();
+	        	/*
+		        $("#lineid").change(function() {
+		        	var lineid = $("#lineid").val();
+		  			alert(lineid);
+		  			var lineSelect = $("#lineSelect").attr("href");
+		  			lineSelect += lineid;
+		  			$("#lineSelect").attr("href", lineSelect);	
+		  			var form = $("")
+		        });
+	        	*/
+	        	
+		        $("#lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
+		        	var lineid = $("#lineid").val(); // "lineid의 value 값 저장"
+		        	alert("컨트롤러로 값 전달");
+		  			var lineSelect = $("#lineSelect").attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
+		  			lineSelect += lineid; // 저장된 "href"의 속성에 lineid 값을 붙이기
+		  			$("#lineSelect").attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
+		  			//alert($("#lineSelect").attr("href"));
 		        });
 			});
         </script>
@@ -139,8 +154,6 @@
                         <div class="col-md-4">
                         	<h1 class="mt-4"></h1>
                         </div>
-                 
-                 	
              	 	<div class="col-xl-6" style ="padding-left-right:35px; padding-top:30px; width:100%">
                     	<div class="card mb-4" style="height:500px">
 	                        <div class="card-header">
@@ -174,18 +187,11 @@
 													  <option value="2">2번라인</option>
 													  <option value="3">3번라인</option>
 													</select>
-													<script>
-														$("#lineid").change(function() {
-											        		var lineid = $("#line").val();}
-															alert(lineid);
-														);
-											        		
-													</script>
 												</form>
 												</td>
 	                                    		<td>
 	                                    			<button type="button" class="btn btn-success">
-	                                    				<a href="/SMFPlatform/testORstart?value=lineid"; style="text-decoration-line:none; color : white">공정</a>
+	                                    				<a id="lineSelect" href="/SMFPlatform/testORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a>
 	                                    			</button>
 	                                    			<button type="button" class="btn btn-danger">
 	                                    			

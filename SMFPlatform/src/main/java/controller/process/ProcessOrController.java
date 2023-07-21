@@ -46,7 +46,16 @@ private ProcessDao processDao;
 		return "test/testOR";
 	}
 	
-	//@GetMapping("/testORstart") 
+	@GetMapping("/testORstart")
+	public String insertLine(Model model, @RequestParam("prodNo") String prodNo,@RequestParam("value") String value) {
+		System.out.println("[ProcessOrController] insertLine : prodNo=" + prodNo);
+		System.out.println("[ProcessOrController] insertLine : value=" + value);
+		
+		String insertProdNo = prodNo;
+		processDao.insertLineid(value, prodNo);
+		model.addAttribute("insertProdNo", insertProdNo);
+		return "test/test";	
+	}
 	
 		
 }

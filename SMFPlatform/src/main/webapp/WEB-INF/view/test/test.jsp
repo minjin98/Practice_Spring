@@ -137,10 +137,11 @@
                         <div class="col-md-4">
                  			 	<form id="procForm" action="${contextPath}/process" method="get">
 				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
+				                	
 				                		<option>공정선택</option> 
-				                		<option value = "KBD001">1공정</option>
-								        <option value = "KBD003">2공정</option>
-								        <option value = "KC002">3공정</option>
+				                		<option value = "${insertProdNo}">1공정</option>
+								        <option value = "${insertProdNo}">2공정</option>
+								        <option value = "${insertProdNo}">3공정</option>
 								    </select>     
 				                </form>
 				        </div>    

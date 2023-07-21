@@ -413,6 +413,11 @@ return results;
 		return deleteprocess;
 	}
 	
+	public void insertLineid(String value, String prodNo) {
+		System.out.println("insertLineid 실행");
+		jdbcTemplate.update("UPDATE PROCESS_ORDER SET LINEID = ?, PROCHECK = 'Y' WHERE PRODNO = ?", value,prodNo);
+	}
+	
 	
 	public int count() {
 		Integer count = jdbcTemplate.queryForObject(

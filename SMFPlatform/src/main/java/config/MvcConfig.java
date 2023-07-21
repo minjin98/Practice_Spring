@@ -22,12 +22,10 @@ public class MvcConfig implements WebMvcConfigurer {
 		configurer.enable();
 	}
 
-	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/WEB-INF/view/", ".jsp");
 	}
-	
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {

@@ -43,7 +43,7 @@ private ProcessDao processDao;
     public String single_value(Model model,@RequestParam("procid") String procid) {
 		System.out.println("[ProcessController] /process : procid=" + procid);
 		
-		// test3에 procid를 저장하기 위해 재전송
+		// 뷰파일에 procid를 저장하기 위해 재전송
 		model.addAttribute("procid", procid);
 		
 		String prodName = processDao.selectProdName(procid);
