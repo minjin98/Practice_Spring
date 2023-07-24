@@ -184,8 +184,9 @@ private ProcessDao processDao;
 		System.out.println("Leadtime : " + process_leadtime);
 		
 		List<ProcessBean>process_cycletime = processDao.select_cycletime(procid);
+		/*
 		int count = processDao.count(); 
-		System.out.println("Cycletime : " + count);
+		System.out.println("Cycletime : " + count);*/
 		
 		JSONArray chart = new JSONArray();
 		chart.add(process_leadtime);

@@ -137,9 +137,11 @@
                         <div class="col-md-4">
                  			 	<form id="procForm" action="${contextPath}/process" method="get">
 				                	<select id="procid" name = "procid"> <!-- 공정선택 -->
-				                	
 				                		<option>공정선택</option> 
-				                		<option value = "${insertProdNo}">1공정</option>
+				                		<%--<option value = "${oneline}">1공정</option>
+								        <option value = "${twoline}">2공정</option>
+								        <option value = "${threeline}">3공정</option> --%>
+								        <option value = "${insertProdNo}">1공정</option>
 								        <option value = "KBD003">2공정</option>
 								        <option value = "KC002">3공정</option>
 								    </select>     
@@ -359,7 +361,6 @@
      <script src="resources/js/chart-bar-produce2.js"></script>
      <script src="resources/js/chart-bar-produce3.js"></script>
      <script src="resources/js/chart-pie.js"></script>
-     <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
      <script>

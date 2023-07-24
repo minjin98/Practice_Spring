@@ -124,7 +124,7 @@ public class ProcessDao {
 	}*/
 	
 	// List<> 쿼리를 통한 데이터 가져오기(싱글벨류)
-	
+	/*
 	public List<ProcessBean> selectAll() {
 		List<ProcessBean> results = jdbcTemplate.query("select * from single_value",
 				new RowMapper<ProcessBean>() {
@@ -140,7 +140,7 @@ public class ProcessDao {
 			});
 	return results;
 	}
-	
+	*/
 	// 이슈 내용 
 	public List<ProcessBean> selectIssueAll(String id) {
 		if("KBD001".equals(id)) {
@@ -385,7 +385,7 @@ return results;
 	// DB 데이터 호출
 	public List<ProcessBean> select_plan() {
 		System.out.println("select_plan 실행");
-		List<ProcessBean> results = jdbcTemplate.query("SELECT B.num,A.prodNO, A.startdate, A.enddate, B.name\r\n"
+		List<ProcessBean> results = jdbcTemplate.query("SELECT B.num,A.prodNO, A.startdate, A.enddate, B.name, B.procheck\r\n"
 				+ "    FROM process_plan A, process_order B\r\n"
 				+ "    WHERE A.planID = B.planID",
 				new RowMapper<ProcessBean>() {
@@ -397,16 +397,15 @@ return results;
 								process.setStartDate(rs.getDate("startdate"));
 								process.setEndDate(rs.getDate("enddate"));
 								process.setName(rs.getString("name"));
-								return process;
+								process.setProCheck(rs.getString("procheck"));
+								return process;	
 					}
 			});
 	return results;
 	}
 	
-	/* 
-	 * 파라미터 num에 해당하는 공정 데이터 삭제 
-	 */
 	
+	// 데이터 삭제
 	public int deleteProcess(Integer num) {
 		System.out.println("deleteProcess 실행");
 		int deleteprocess = jdbcTemplate.update("DELETE FROM process_order WHERE num = ?", num);
@@ -424,12 +423,32 @@ return results;
 		}
 		
 	}
+	// 예외처리 어떻게 하지
+	// 1~3번 라인 prodNo 설정
+	public String selectOneLine(String value) {
+		System.out.println("[Controller]1번공정");
+		String oneline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '1' AND procheck = 'Y'",String.class);
+		return oneline;
+	}
 	
+	public String selectTwoLine(String value) {
+		System.out.println("[Controller]2번공정");
+		String twoline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '2' AND procheck = 'Y'",String.class);
+		System.out.println("[Controller]2번공정 종료");
+		return twoline;
+	}
 	
+	public String selectThreeLine(String value) {
+		System.out.println("[Controller]3번공정");
+		String threeline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '3' AND procheck = 'Y'",String.class);
+		return threeline;
+	}
+	
+	/*
 	public int count() {
 		Integer count = jdbcTemplate.queryForObject(
 				"select count(*) from cycletime_1", Integer.class);
 		return count;
 	}
-
+*/
 }

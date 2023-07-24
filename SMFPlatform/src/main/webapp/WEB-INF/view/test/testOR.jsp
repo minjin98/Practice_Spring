@@ -26,8 +26,8 @@
     <%-- select 태그에서 선택한 값의 value 값을 <a></a> 태그에 실어서 보내기 위함 --%>
     <%-- lineSelect는 <a> 태그의 id --%>
     <script>
+    /*
 	        $(document).ready(function() {
-	        	/*
 		        $("#lineid").change(function() {
 		        	var lineid = $("#lineid").val();
 		  			alert(lineid);
@@ -38,9 +38,10 @@
 		        });
 	        	*/
 	        	
+	        $(document).ready(function() {
 		        $("#lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
 		        	var lineid = $("#lineid").val(); // "lineid의 value 값 저장"
-		        	alert("컨트롤러로 값 전달");
+		        	alert(lineid);
 		  			var lineSelect = $("#lineSelect").attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
 		  			lineSelect += lineid; // 저장된 "href"의 속성에 lineid 값을 붙이기
 		  			$("#lineSelect").attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
@@ -190,17 +191,22 @@
 												</form>
 												</td>
 	                                    		<td>
-	                                    			<button type="button" class="btn btn-success">
-	                                    				<a id="lineSelect" href="/SMFPlatform/testORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a>
-	                                    			</button>
-	                                    			<button type="button" class="btn btn-danger">
-	                                    			
-	                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
-	                                    					a hef="" 로 Controller의 Mapping을 호출
-	                                    					호출할 때 파라미터의 값을 같이 전송
-	                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
-	                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
-	                                    			</button>
+	                                    			<c:if test="${order.proCheck != 'Y'}">
+		                                    			<button type="button" class="btn btn-success">
+		                                    				<a id="lineSelect" href="/SMFPlatform/testORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a>
+		                                    			</button>
+		                                    			<button type="button" class="btn btn-danger">
+		                                    			
+		                                    				<%--forEach 로 꺼낸 데이터들 중에서 항목에 해당하는 값 전송
+		                                    					a hef="" 로 Controller의 Mapping을 호출
+		                                    					호출할 때 파라미터의 값을 같이 전송
+		                                    					Controller에서는 @RequestParm으로 넘어온 데이터 받기--%>
+		                                    				<a href="/SMFPlatform/testORDelete?num=${order.num}"; style="text-decoration-line:none; color : white">삭제</a>
+		                                    			</button>
+	                                    			</c:if>
+	                                    			<c:if test="${order.proCheck == 'Y'}">
+		                                    				<a id="lineSelected"; style="text-decoration-line:none; color : black">진행중</a>
+	                                    			</c:if>
 	                                    		</td>
 	                                    	</tr>
                                     	</c:forEach>
@@ -232,7 +238,6 @@
      <script src="resources/js/chart-bar-produce2.js"></script>
      <script src="resources/js/chart-bar-produce3.js"></script>
      <script src="resources/js/chart-pie.js"></script>
-     <script src="resources/js/chart-datatables.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
      <script src="resources/js/datatables-simple-demo.js"></script>
      <script>

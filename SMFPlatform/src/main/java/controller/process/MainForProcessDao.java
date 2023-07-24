@@ -19,8 +19,19 @@ public class MainForProcessDao {
 		System.out.println("빈 연결 성공");
 		//selectAll();
 		
+		/*
 		String prodName = processDao.selectProdName("KBD001");
 		System.out.println(prodName);
+		*/
+		/*
+		String prodNo1 = processDao.selectOneLine("3");
+		System.out.println(prodNo1);
+		String prodNo2 = processDao.selectTwoLine("2");
+		System.out.println(prodNo2);
+		String prodNo3 = processDao.selectThreeLine("3");
+		System.out.println(prodNo3);
+		*/
+	
 		/*
 		List<ProcessBean>process_gauge = processDao.selectGauge("KBD001");
 		for(ProcessBean p : process_gauge) {
@@ -50,13 +61,13 @@ public class MainForProcessDao {
 			System.out.println(p.getMaterialqty());
 		}
 		*/
-		
+		/*
 		List<ProcessBean> order = processDao.select_plan();
 		System.out.println("select_plan main문에서 실행");
 		for(ProcessBean p : order) {
 			System.out.println(p.getNum()+'/'+ p.getProdNo()+'/' + p.getStartDate()+'/' + p.getEndDate()+'/' + p.getName());
 		}
-		
+		*/
 		
 		/*
 		String goodProd = processDao.selectGood_prod("KBD001");

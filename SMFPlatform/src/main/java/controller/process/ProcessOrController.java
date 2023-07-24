@@ -51,11 +51,49 @@ private ProcessDao processDao;
 		System.out.println("[ProcessOrController] insertLine : prodNo=" + prodNo);
 		System.out.println("[ProcessOrController] insertLine : value=" + value);
 		
-		
+		// DB 업데이트
+		// 휘발성	
 		String insertProdNo = prodNo;
 		processDao.insertLineid(value, prodNo);
 		model.addAttribute("insertProdNo", insertProdNo);
-		return "test/test";	
+		return "test/test";
+		/*
+			if("1".equals(value)) {
+			String oneline = processDao.selectOneLine(value);
+			model.addAttribute("oneline", oneline);
+		}
+		
+		else if("2".equals(value)) {
+			String twoline = processDao.selectTwoLine(value);
+			model.addAttribute("twoline", twoline);
+		}
+		
+		else if("3".equals(value)){
+			String threeline = processDao.selectThreeLine(value);
+			model.addAttribute("threeline", threeline);
+		}
+		else {
+			return "test/testOR";
+		}
+		*/
+		/*
+		String twoline = processDao.selectTwoLine();
+		if(twoline == null) {
+			System.out.println("2번공정 데이터 없음");
+		}
+		else {
+			model.addAttribute("twoline", twoline);
+		}
+		
+		String threeline = processDao.selectThreeLine();
+		if(threeline == null) {
+			System.out.println("3번공정 데이터 없음");
+		}
+		else {
+			model.addAttribute("threeline", threeline);
+		}*/
+		
+			
 	}
 	
 		
