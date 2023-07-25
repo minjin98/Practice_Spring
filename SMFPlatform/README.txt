@@ -73,6 +73,18 @@ String 으로 받은 객체는 for:each 로 반복할 수 없다.
 Dao에 구현시 insert, delete, update 전부 jdbcTemplate.update 로 사용 (예제:S08JdbcTemplate 참고)
 query문은 select 시에만 사용
 
+$(document).ready(function() {
+		        $(".lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행(클래스 설정) => 여러 개의 값들을 동일한 클래스명으로 설정 가능
+		        	var lineid = $(this).prop("id"); // "lineSelect"에서 실행된 함수 "id"의 property 값을 "lineid"에 저장 (ordernum${})
+		            var sel = $("#line"+lineid).val();
+		        	alert(sel);
+		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
+		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
+		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
+		  			//alert($("#lineSelect").attr("href"));
+		        });	
+			});
+
 <통합>
 1. web.xml 주석부분으로 수정
 2. MvcConfig 주석 해제

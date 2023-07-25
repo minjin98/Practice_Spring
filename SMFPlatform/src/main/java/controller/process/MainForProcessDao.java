@@ -61,13 +61,13 @@ public class MainForProcessDao {
 			System.out.println(p.getMaterialqty());
 		}
 		*/
-		/*
+		
 		List<ProcessBean> order = processDao.select_plan();
 		System.out.println("select_plan main문에서 실행");
 		for(ProcessBean p : order) {
 			System.out.println(p.getNum()+'/'+ p.getProdNo()+'/' + p.getStartDate()+'/' + p.getEndDate()+'/' + p.getName());
 		}
-		*/
+		
 		
 		/*
 		String goodProd = processDao.selectGood_prod("KBD001");

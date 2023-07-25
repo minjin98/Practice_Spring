@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*,controller.process.*" %>
 <%@ page import="java.util.*,controller.process.ProcessBean" %>
-<%@ page import="java.util.*,config.db.OracleDbConfig" %>
 <jsp:useBean id="proMgr" class="controller.process.ProcessDao" />
 
 <html>
@@ -14,26 +13,16 @@
 	<h3>회원정보</h3>
 	<table bordercolor="#0000ff" border="1">
 	<tr>
-	   <td><strong>ProdNo</strong></td>
-	   <td><strong>StartDate</strong></td>
-	   <td><strong>EndDate</strong></td>
-	   <td><strong>Name</strong></td>
+	   <td><strong>1번라인</strong></td>
 	</tr>
 	
 	<%
-		List<ProcessBean> results = proMgr.select_plan();
-				int counter = results.size();
-				for(int i=0; i<results.size(); i++){
-			ProcessBean proBean =results.get(i);
-		%>
+		String p1 = proMgr.selectOneLine();
+	%>
 	<tr>
-		<td><%=proBean.getProdNo()%></td>
-		<td><%=proBean.getStartDate()%></td>
-		<td><%=proBean.getEndDate()%></td>
-		<td><%=proBean.getName()%></td>
+		<td><%=p1%></td>
 		
 	</tr>
-	<% }%>
 	</table>
 	<br/>
 	<br/>

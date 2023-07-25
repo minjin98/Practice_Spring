@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="spring.auth.AuthInfo, java.util.List, controller.process.ProcessBean" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<jsp:useBean id ="prod" class="controller.process.ProcessDao"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,11 @@
         <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
         <script type="text/javascript" src="resources/js/jquery-1.12.4.js"></script>
     </head>
+    <%
+    	String oneline = prod.selectOneLine();
+    	String twoline = prod.selectTwoLine();
+    	String threeline = prod.selectThreeLine();
+    %>
      <%--드롭다운 메뉴 선택시 해당 value 값 ProcessController에 전송 --%> 
         <script>
 	        $(document).ready(function() {
@@ -141,9 +147,9 @@
 				                		<%--<option value = "${oneline}">1공정</option>
 								        <option value = "${twoline}">2공정</option>
 								        <option value = "${threeline}">3공정</option> --%>
-								        <option value = "${insertProdNo}">1공정</option>
-								        <option value = "KBD003">2공정</option>
-								        <option value = "KC002">3공정</option>
+								        <option value = "<%=oneline%>">1공정</option>
+								        <option value = "<%=twoline%>">2공정</option>
+								        <option value = "<%=threeline%>">3공정</option>
 								    </select>     
 				                </form>
 				        </div>    

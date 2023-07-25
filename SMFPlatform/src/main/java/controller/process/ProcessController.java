@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -269,17 +271,11 @@ private ProcessDao processDao;
 		System.out.println(jsonInfo);
 		writer.print(jsonInfo);
 	}
-	/*
-	@GetMapping("/test3")
-	public String one(Model model) {
-		return test3
-	} 
-	*/
-
-	/*
-	@RequestMapping("/process")
-    public String manage() {
-    	return "process/process";
-    }
-	*/
+	
+	@ExceptionHandler({EmptyResultDataAccessException.class})
+	public  String emptyResultDataAccessException() {
+		return "test/test";
+	}
+	
+		
 }

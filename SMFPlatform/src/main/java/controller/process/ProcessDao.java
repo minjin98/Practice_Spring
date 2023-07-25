@@ -1,19 +1,40 @@
 package controller.process;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+
+import config.db.OracleInfo;
+
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 public class ProcessDao {
-	
+	// Controller 사용 x JSP(제품명)를 위한 DataSource
+	public DataSource dataSource() {
+		DataSource ds = new DataSource();
+		ds.setDriverClassName(OracleInfo._driver);
+		ds.setUrl(OracleInfo._url);
+		ds.setUsername(OracleInfo._user);
+		ds.setPassword(OracleInfo._password);
+		ds.setInitialSize(2);
+		ds.setMaxActive(10);
+		ds.setMaxIdle(10);
+		ds.setTestWhileIdle(true);
+		ds.setMinEvictableIdleTimeMillis(60000 * 3);
+		ds.setTimeBetweenEvictionRunsMillis(10 * 1000);
+		return ds;
+	}
+	// Controller 사용 JdbcTemplate
 	private JdbcTemplate jdbcTemplate;
 	
 	public ProcessDao() {
 		System.out.println("[ProcessDao 실행]");
+		this.jdbcTemplate = new JdbcTemplate(dataSource());
 	}
 	
 	// DB 연동
@@ -423,32 +444,67 @@ return results;
 		}
 		
 	}
-	// 예외처리 어떻게 하지
+	
 	// 1~3번 라인 prodNo 설정
-	public String selectOneLine(String value) {
+	public String selectOneLine() {
 		System.out.println("[Controller]1번공정");
-		String oneline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '1' AND procheck = 'Y'",String.class);
-		return oneline;
+		try {
+			String oneline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '1' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]1번공정 종료");
+			return oneline;
+		}
+		catch(Exception e) {
+			System.out.println("1번 DB 내용이 없습니다 ");
+		}
+		return selectOneLine();
 	}
 	
-	public String selectTwoLine(String value) {
+	public String selectTwoLine() {
 		System.out.println("[Controller]2번공정");
-		String twoline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '2' AND procheck = 'Y'",String.class);
-		System.out.println("[Controller]2번공정 종료");
-		return twoline;
+		try {
+			String twoline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '2' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]2번공정 종료");
+			return twoline;
+		}
+		catch(Exception e) {
+			System.out.println("2번 DB 내용이 없습니다");
+		}
+		return "test/test";
 	}
 	
-	public String selectThreeLine(String value) {
+	public String selectThreeLine() {
 		System.out.println("[Controller]3번공정");
-		String threeline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '3' AND procheck = 'Y'",String.class);
-		return threeline;
+		try {
+			String threeline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '3' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]3번공정 종료");
+			return threeline;
+		}
+		catch(Exception e) {
+			System.out.println("3번 DB 내용이 없습니다");
+		}
+		
+		return "test/test";
+	}
+	/*
+	public String selectOneLine() {
+		System.out.println("[Controller]1번공정");
+			String oneline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '1' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]1번공정 종료");
+			return oneline;
 	}
 	
-	/*
-	public int count() {
-		Integer count = jdbcTemplate.queryForObject(
-				"select count(*) from cycletime_1", Integer.class);
-		return count;
+	public String selectTwoLine() {
+		System.out.println("[Controller]2번공정");
+			String twoline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '2' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]2번공정 종료");
+			return twoline;
 	}
-*/
+	
+	public String selectThreeLine() {
+		System.out.println("[Controller]3번공정");
+			String threeline = jdbcTemplate.queryForObject("SELECT prodNo FROM process_order WHERE lineid = '3' AND procheck = 'Y'",String.class);
+			System.out.println("[Controller]3번공정 종료");
+			return threeline;
+	}
+	*/
 }

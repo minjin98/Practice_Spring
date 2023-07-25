@@ -26,28 +26,19 @@
     <%-- select 태그에서 선택한 값의 value 값을 <a></a> 태그에 실어서 보내기 위함 --%>
     <%-- lineSelect는 <a> 태그의 id --%>
     <script>
-    /*
+    
 	        $(document).ready(function() {
-		        $("#lineid").change(function() {
-		        	var lineid = $("#lineid").val();
-		  			alert(lineid);
-		  			var lineSelect = $("#lineSelect").attr("href");
-		  			lineSelect += lineid;
-		  			$("#lineSelect").attr("href", lineSelect);	
-		  			var form = $("")
-		        });
-	        	*/
-	        	
-	        $(document).ready(function() {
-		        $("#lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
-		        	var lineid = $("#lineid").val(); // "lineid의 value 값 저장"
-		        	alert(lineid);
-		  			var lineSelect = $("#lineSelect").attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
-		  			lineSelect += lineid; // 저장된 "href"의 속성에 lineid 값을 붙이기
-		  			$("#lineSelect").attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
+		        $(".lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
+		        	var lineid = $(this).prop("id"); // "lineid의 value 값 저장"
+		            var sel = $("#line"+lineid).val();
+		        	alert(sel);
+		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
+		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
+		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
 		  			//alert($("#lineSelect").attr("href"));
-		        });
+		        });	
 			});
+	        
         </script>
     
     <body class="sb-nav-fixed">
@@ -181,19 +172,18 @@
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
 	                                    		<td>
-	                                    		<form id="lineForm" action="${contextPath}/testORstart" method="get">
-	                                    			<select id = "lineid" name="lineid">
+	                                    			<select id="lineordernum${order.num}" name="lineid"> <%--select id = lineid로 수정 --%>
 													  <option selected>라인선택</option>
 													  <option value="1">1번라인</option>
 													  <option value="2">2번라인</option>
 													  <option value="3">3번라인</option>
 													</select>
-												</form>
+													
 												</td>
 	                                    		<td>
 	                                    			<c:if test="${order.proCheck != 'Y'}">
 		                                    			<button type="button" class="btn btn-success">
-		                                    				<a id="lineSelect" href="/SMFPlatform/testORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a>
+		                                    				<a id="ordernum${order.num}" class="lineSelect" href="/SMFPlatform/testORstart?prodNo=${order.prodNo}&value="; style="text-decoration-line:none; color : white">공정</a> 
 		                                    			</button>
 		                                    			<button type="button" class="btn btn-danger">
 		                                    			
