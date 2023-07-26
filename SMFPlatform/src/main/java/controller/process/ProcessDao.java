@@ -406,7 +406,7 @@ return results;
 	// DB 데이터 호출
 	public List<ProcessBean> select_plan() {
 		System.out.println("select_plan 실행");
-		List<ProcessBean> results = jdbcTemplate.query("SELECT B.num,A.prodNO, A.startdate, A.enddate, B.name, B.procheck\r\n"
+		List<ProcessBean> results = jdbcTemplate.query("SELECT B.num,A.prodNO, A.startdate, A.enddate, B.name, B.lineid ,B.procheck\r\n"
 				+ "    FROM process_plan A, process_order B\r\n"
 				+ "    WHERE A.planID = B.planID",
 				new RowMapper<ProcessBean>() {
@@ -418,6 +418,7 @@ return results;
 								process.setStartDate(rs.getDate("startdate"));
 								process.setEndDate(rs.getDate("enddate"));
 								process.setName(rs.getString("name"));
+								process.setLineID(rs.getString("lineid"));
 								process.setProCheck(rs.getString("procheck"));
 								return process;	
 					}
@@ -440,7 +441,7 @@ return results;
 			jdbcTemplate.update("UPDATE PROCESS_ORDER SET LINEID = ?, PROCHECK = 'Y' WHERE PRODNO = ?", value,prodNo);
 		}
 		else {
-			System.out.println("value 값이 올바르지 않습니다"); 
+			//return "test/testOR"; 
 		}
 		
 	}

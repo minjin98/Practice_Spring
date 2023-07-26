@@ -31,12 +31,14 @@
 		        $(".lineSelect").click(function() { // "lineSelect"가 클릭되었을때 함수 실행
 		        	var lineid = $(this).prop("id"); // "lineid의 value 값 저장"
 		            var sel = $("#line"+lineid).val();
-		        	alert(sel);
+		        	//alert(sel);
 		  			var lineSelect = $(this).attr("href"); // ID가 "lineSelect"인 태그의 "href" 속성을 변수에 저장
 		  			lineSelect += sel; // 저장된 "href"의 속성에 lineid 값을 붙이기
 		  			$(this).attr("href", lineSelect); // ID가 "lineSelect"인 태그의 "href" 속성을 lineSelect 변수값으로 교체
 		  			//alert($("#lineSelect").attr("href"));
+		  		$("select option[value*='sel']").prop('disabled',true);
 		        });	
+		        
 			});
 	        
         </script>
@@ -172,12 +174,21 @@
 	                                    		<td>${order.startDate} ~ ${order.endDate}</td>
 	                                    		<td>${order.name}</td>
 	                                    		<td>
+	                                    			<c:if test = "${order.lineID == null}">
 	                                    			<select id="lineordernum${order.num}" name="lineid"> <%--select id = lineid로 수정 --%>
 													  <option selected>라인선택</option>
 													  <option value="1">1번라인</option>
 													  <option value="2">2번라인</option>
 													  <option value="3">3번라인</option>
 													</select>
+													</c:if>
+													
+													<%--진행중인 공정은 dropdown 비활성화 --%>
+													<c:if test ="${order.lineID != null}">
+													<select id="lineordernum${order.num}" disabled> <%--select id = lineid로 수정 --%>
+													  <option selected>${order.lineID}번라인</option>
+													</select>
+													</c:if>
 													
 												</td>
 	                                    		<td>

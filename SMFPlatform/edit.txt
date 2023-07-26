@@ -1,0 +1,2 @@
+1. testOR.jsp $(document ~ 부분 alert 삭제
+2. // select_option 부분 <c:if>, disabled  추가 
