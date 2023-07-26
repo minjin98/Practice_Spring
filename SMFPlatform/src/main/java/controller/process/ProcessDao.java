@@ -456,7 +456,7 @@ return results;
 		catch(Exception e) {
 			System.out.println("1번 DB 내용이 없습니다 ");
 		}
-		return selectOneLine();
+		return "test/test";
 	}
 	
 	public String selectTwoLine() {
