@@ -39,7 +39,18 @@ private ProcessDao processDao;
 	public String deleteProcess(Model model, @RequestParam("num") Integer num) {
 		System.out.println("[ProcessOrController] deleteProcess: prodNo=" + num);
 		processDao.deleteProcess(num);
-		System.out.println("deleprocess 완료 2");
+		System.out.println("deleprocess 완료");
+		
+		List<ProcessBean>orderlist = processDao.select_plan();
+		model.addAttribute("orderlist", orderlist);
+		return "test/testOR";
+	}
+	
+	@GetMapping("/testORCancel")
+	public String cancel(Model model, @RequestParam("num") Integer num) {
+		System.out.println("[ProcessOrController] cancel: prodNo=" + num);
+		processDao.cancel(num);
+		System.out.println("cancel 완료");
 		
 		List<ProcessBean>orderlist = processDao.select_plan();
 		model.addAttribute("orderlist", orderlist);
@@ -58,6 +69,5 @@ private ProcessDao processDao;
 		model.addAttribute("insertProdNo", insertProdNo);
 		return "test/test";
 	}
-	
 		
 }

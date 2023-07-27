@@ -146,13 +146,13 @@
 				                		<option>공정선택</option> 
 				                		<%--<option value = "${oneline}">1공정</option>
 								        <option value = "${twoline}">2공정</option>
-								        <option value = "${threeline}">3공정</option> --%>
+								        <option value = "${threeline}">3공정</option> --%> 
 								        <option value = "<%=oneline%>">1공정</option>
 								        <option value = "<%=twoline%>">2공정</option>
 								        <option value = "<%=threeline%>">3공정</option>
 								    </select>     
 				                </form>
-				        </div>    
+				        </div>  
                         </div>
                     </div>
                       <div class="row" style="width:100%; padding-left: 10px;">

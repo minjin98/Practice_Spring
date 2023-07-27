@@ -434,6 +434,13 @@ return results;
 		return deleteprocess;
 	}
 	
+	// 공정 취소
+	public int cancel(Integer num) {
+		System.out.println("cancel 실행");
+		int cancel = jdbcTemplate.update("UPDATE PROCESS_ORDER SET LINEID = NULL, PROCHECK = NULL WHERE num = ?", num);
+		return cancel;
+	}
+	
 	// lineid 값이 null이 아닐경우에만 실행
 	public void insertLineid(String value, String prodNo) {
 		if(value != null) {
